@@ -1,0 +1,77 @@
+
+
+/* Overall header styling */
+.app-header {
+  background-color: #f8f8f8;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Navigation bar inside the header */
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Dashboard link styling */
+.dashboard-link {
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+/* Container for user info and buttons */
+.user-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+
+  /* Add this new rule for the logout button */
+  button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem; /* Adjusted padding for a header button */
+    font-size: 0.9rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #303f9f;
+    }
+  }
+}
+
+/* Responsive behavior */
+@media (max-width: 600px) {
+  .header-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-info {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .dashboard-link {
+    font-size: 1.5rem;
+  }
+
+  .user-info span,
+  .user-info button {
+    width: 100%;
+  }
+
+  .user-info button {
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+}

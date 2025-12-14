@@ -1,0 +1,15 @@
+$primary-color: #3f51b5;
+$danger-color: red;
+$success-color: green;
+$background-light: #f4f6f8;
+
+
+:root {
+  // CSS Custom Properties
+  --color-gray: #6c757d;
+  --color-gray-dark: #5a6268;
+}
+
+// Fallback for older browsers
+$gray: var(--color-gray, #6c757d);
+$gray-dark: var(--color-gray-dark, #5a6268);

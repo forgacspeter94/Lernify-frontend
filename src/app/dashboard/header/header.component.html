@@ -1,0 +1,15 @@
+<header class="app-header">
+  <nav class="header-nav">
+    <a routerLink="/dashboard" class="dashboard-link">Lernify</a>
+
+    <div class="user-info" *ngIf="user; else guest">
+      <span>Welcome, {{ user.username }}</span>
+      <button (click)="onLogout()">Logout</button>
+    </div>
+
+    <ng-template #guest>
+      <span>Please log in</span>
+    </ng-template>
+  </nav>
+</header>
+

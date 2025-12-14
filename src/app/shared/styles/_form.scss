@@ -1,0 +1,47 @@
+.auth-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+  width: 350px;       // bigger default width (adjust as you want)
+  max-width: 90vw;    // max width should not exceed viewport width (responsive)
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  button {
+    background-color: #303f9f;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    width: 100%;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #5a6268; // Darker gray
+    }
+  }
+   @media (max-width: 768px) {
+    width: 100%;       // take full width on mobile (with max-width in parent container)
+    padding: 1.5rem;
+    
+    input, button {
+      width: 100%;
+      box-sizing: border-box; // ensures padding doesn't break width
+    }// a bit less padding on smaller screens
+  }
+}

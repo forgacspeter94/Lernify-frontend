@@ -1,0 +1,26 @@
+<app-auth-layout>
+  <div class="auth-form"> 
+    <h2>Register</h2>
+    <form (ngSubmit)="register()">
+      <label>
+        Username:
+        <input type="text" [(ngModel)]="username" name="username" required />
+      </label>
+      <br />
+      <label>
+        Password:
+        <input type="password" [(ngModel)]="password" name="password" required />
+      </label>
+      <br />
+      <button class="register-btn" type="submit">Register</button>
+    </form>
+
+    <p *ngIf="errorMessage" style="color: red">{{ errorMessage }}</p>
+    <p *ngIf="successMessage" style="color: green">{{ successMessage }}</p>
+    <p>
+      Already have an account? 
+      <a routerLink="/login">Login here</a>
+    </p>
+  </div>
+</app-auth-layout>
+
