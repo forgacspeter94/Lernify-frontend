@@ -11,7 +11,7 @@
 
 .auth-left {
   flex: 3;
-  background: url('/assets/background.png') no-repeat center center;
+  background: url('/assets/backGround.png') no-repeat center center;
   background-size: cover;
   color: white;
   display: flex;
@@ -22,11 +22,11 @@
   text-align: right;
 
   .logo {
-    width: 120px;
+    max-width: 80px;
     margin-bottom: 1rem;
     align-self: flex-start; // keep logo on left edge
   }
-  
+
 
 .text-wrapper {
     align-self: flex-end;
@@ -40,15 +40,15 @@
          1px -1px 0 white,
         -1px  1px 0 white,
          1px  1px 0 white;  // move the whole text block up
-    
-    
+
+
     h1 {
-      
+
       font-size: 2.55rem;
       color: black;
       margin-bottom: 1.5rem;  // keep spacing to p
     }
-    
+
     p {
       font-size: 1.2rem;
       color: black;
@@ -68,7 +68,7 @@
     height: auto;
     flex: none;
     background: none;          // remove the background image
-    padding: 1rem 1rem 0.5rem 1rem; 
+    padding: 1rem 1rem 0.5rem 1rem;
 
     .logo {
       display: none;           // hide the logo image
