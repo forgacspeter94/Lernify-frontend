@@ -1,5 +1,5 @@
 <app-auth-layout>
-  <div class="auth-form"> 
+  <div class="auth-form">
     <h2>Register</h2>
     <form (ngSubmit)="register()">
       <label>
@@ -12,13 +12,18 @@
         <input type="password" [(ngModel)]="password" name="password" required />
       </label>
       <br />
+      <label>
+        Email:
+        <input type="email" [(ngModel)]="email" name="email" required />
+      </label>
+
       <button class="register-btn" type="submit">Register</button>
     </form>
 
     <p *ngIf="errorMessage" style="color: red">{{ errorMessage }}</p>
     <p *ngIf="successMessage" style="color: green">{{ successMessage }}</p>
     <p>
-      Already have an account? 
+      Already have an account?
       <a routerLink="/login">Login here</a>
     </p>
   </div>

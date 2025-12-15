@@ -15,6 +15,7 @@ import { AuthService } from '../auth.service';
 export class RegisterComponent {
   username = '';
   password = '';
+  email = '';
   errorMessage = '';
   successMessage = '';
 
@@ -24,7 +25,7 @@ export class RegisterComponent {
     this.errorMessage = '';
     this.successMessage = '';
 
-    this.authService.register(this.username, this.password).subscribe({
+    this.authService.register(this.username, this.password, this.email).subscribe({
       next: (res) => {
         console.log('Register response:', res);
         this.successMessage = 'Registration successful! Redirecting to login...';
@@ -40,4 +41,4 @@ export class RegisterComponent {
       }
     });
   }
-}  
+}
