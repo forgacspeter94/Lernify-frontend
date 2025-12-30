@@ -2,9 +2,9 @@
 
 /* Overall header styling */
 .app-header {
-  background-color: #f8f8f8;
+  background-color: var(--bg-surface);
   padding: 1rem;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--border);
 }
 
 /* Navigation bar inside the header */
@@ -20,7 +20,7 @@
 .dashboard-link {
   font-weight: bold;
   text-decoration: none;
-  color: #333;
+  color: var(--primary);
   font-size: 1.5rem;
 }
 
@@ -33,8 +33,8 @@
 
   /* Add this new rule for the logout button */
   button {
-    background-color: #6c757d;
-    color: white;
+    background-color: var(--color-gray);
+    color: var(--text-main);
     border: none;
     padding: 0.6rem 1rem; /* Adjusted padding for a header button */
     font-size: 0.9rem;

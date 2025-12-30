@@ -32,7 +32,7 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/app/shared/styles/main.scss"
             ]
           },
           "configurations": {

@@ -8,8 +8,4 @@ import { RouterOutlet } from '@angular/router';
   template: `<router-outlet></router-outlet>`
 })
 export class App {
-  constructor() {
-    // Clear the stored token on app startup to avoid stale tokens
-    localStorage.clear();
-  }
 }
