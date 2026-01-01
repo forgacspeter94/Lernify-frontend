@@ -20,17 +20,21 @@ export class AccountSettingsComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    const user = this.authService.getCurrentUser();
-    console.log('Current user:', user);
-    if (!user) {
-      // temporarily comment this line for debugging:
-      // this.router.navigate(['/login']);
-      return;
+  this.isDarkMode = localStorage.getItem('theme') === 'dark';
+
+  this.authService.getUserFromBackend().subscribe({
+    next: user => {
+      this.user = user;
+      this.email = user.email || '';
+      console.log('User from backend:', user);
+    },
+    error: err => {
+      console.error('Failed to fetch user from backend:', err);
+      this.router.navigate(['/login']);
     }
-    this.user = user;
-    this.email = user.email || ''; 
-    this.isDarkMode = localStorage.getItem('theme') === 'dark';
-  }
+  });
+}
+
 
   /* ===== Update account ===== */
   saveAccount() {

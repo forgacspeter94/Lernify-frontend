@@ -9,12 +9,13 @@ interface AuthResponse {
 
 interface JwtPayload {
   exp: number;
+  sub: string;
   [key: string]: any;
 }
 
 interface UpdateUserRequest {
   username: string;
-  email?: string;   // ✅ added email
+  email?: string;
   password?: string;
 }
 
@@ -22,7 +23,8 @@ interface UpdateUserRequest {
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:8080/auth';
+  private authBaseUrl = 'http://localhost:8080/auth'; // for login/register/logout
+  private userBaseUrl = 'http://localhost:8080/user'; // ✅ for user operations
   private tokenKey = 'auth_token';
   private loggedIn = new BehaviorSubject<boolean>(false);
 
@@ -45,15 +47,8 @@ export class AuthService {
       const expiry = decoded.exp * 1000;
       const clockSkew = 2 * 60 * 1000;
 
-      if (now >= (expiry - clockSkew)) {
-        console.warn(
-          `Token expired or about to expire (within tolerance). Expiry: ${new Date(expiry).toISOString()}`
-        );
-        return true;
-      }
-      return false;
-    } catch (e) {
-      console.error('Error decoding token:', e);
+      return now >= (expiry - clockSkew);
+    } catch {
       return true;
     }
   }
@@ -81,52 +76,31 @@ export class AuthService {
 
   login(username: string, password: string): Observable<AuthResponse> {
     return this.http
-      .post<AuthResponse>(`${this.baseUrl}/login`, { username, password })
+      .post<AuthResponse>(`${this.authBaseUrl}/login`, { username, password })
       .pipe(
         tap({
-          next: res => {
-            console.log('Received JWT token:', res.token);
-            this.storeToken(res.token);
-          },
+          next: res => this.storeToken(res.token),
           error: () => this.clearLocalAuth()
         })
       );
   }
 
   register(username: string, password: string, email: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/register`, {
-      username,
-      email,
-      password
-    });
+    return this.http.post<any>(`${this.authBaseUrl}/register`, { username, email, password });
   }
 
   logout(): void {
     const token = this.getToken();
-
-    if (!token) {
-      console.warn('No token found. Skipping logout.');
-      this.clearLocalAuth();
-      return;
-    }
-
-    if (this.isTokenExpired(token)) {
-      console.warn('Token expired. Skipping logout request to server.');
+    if (!token || this.isTokenExpired(token)) {
       this.clearLocalAuth();
       return;
     }
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    this.http.post(`${this.baseUrl}/logout`, {}, { headers }).subscribe({
-      next: () => {
-        console.log('Logged out successfully.');
-        this.clearLocalAuth();
-      },
-      error: err => {
-        console.error('Logout request failed:', err);
-        this.clearLocalAuth();
-      }
+    this.http.post(`${this.authBaseUrl}/logout`, {}, { headers }).subscribe({
+      next: () => this.clearLocalAuth(),
+      error: () => this.clearLocalAuth()
     });
   }
 
@@ -136,55 +110,29 @@ export class AuthService {
 
   /* ================= USER ================= */
 
-  getTokenPayload(): JwtPayload | null {
+  getUserFromBackend(): Observable<{ username: string; email: string }> {
     const token = this.getToken();
-    if (!token) return null;
+    if (!token) throw new Error('No token available');
 
-    try {
-      return jwtDecode<JwtPayload>(token);
-    } catch {
-      return null;
-    }
-  }
-
-  getCurrentUser(): { username: string; email?: string } | null {
-    const payload = this.getTokenPayload();
-    if (!payload) return null;
-
-    const username = payload['sub'] || payload['username'] || payload['email'];
-    const email = payload['email'];   // ✅ get email from token if available
-    return username ? { username, email } : null;
-  }
-
-  /** Helper for components */
-  getUser(): { username: string; email?: string } | null {
-    return this.getCurrentUser();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.get<{ username: string; email: string }>(`${this.userBaseUrl}/me`, { headers }); // ✅ /user/me
   }
 
   /* ================= ACCOUNT SETTINGS ================= */
 
   updateUser(data: UpdateUserRequest): Observable<any> {
     const token = this.getToken();
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
+    if (!token) throw new Error('No token available');
 
-    return this.http.put(
-      'http://localhost:8080/user',
-      data,
-      { headers }
-    );
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.put(`${this.userBaseUrl}`, data, { headers }); // ✅ /user
   }
 
   deleteAccount(): Observable<void> {
     const token = this.getToken();
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
+    if (!token) throw new Error('No token available');
 
-    return this.http.delete<void>(
-      'http://localhost:8080/user',
-      { headers }
-    );
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.delete<void>(`${this.userBaseUrl}`, { headers }); // ✅ /user
   }
 }

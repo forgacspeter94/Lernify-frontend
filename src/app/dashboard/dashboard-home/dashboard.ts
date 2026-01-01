@@ -1,4 +1,4 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { AppHeaderComponent } from '../header/header.component';
@@ -6,26 +6,34 @@ import { DashboardCardsComponent } from '../dashboard-cards/dashboard-cards.comp
 
 @Component({
   standalone: true,
-  imports: [AppHeaderComponent, DashboardCardsComponent], // Import the HeaderComponent
+  imports: [AppHeaderComponent, DashboardCardsComponent], 
   selector: 'app-dashboard',
-  templateUrl: './dashboard.html', // use external HTML file
-  styleUrls: ['./dashboard.component.scss'], // use external CSS file
+  templateUrl: './dashboard.html',
+  styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+  currentUser: { username: string; email?: string } | null = null;
+
   constructor(private authService: AuthService, private router: Router) {}
 
-currentUser: { username: string } | null = null;
-
-ngOnInit(): void {
-  this.authService.loggedIn$.subscribe(isLoggedIn => {
-    if (!isLoggedIn) {
-      this.router.navigate(['/login']);
-    } else {
-      this.currentUser = this.authService.getCurrentUser();
-      console.log('Current User:', this.currentUser);
-    }
-  });
-}
+  ngOnInit(): void {
+    this.authService.loggedIn$.subscribe(isLoggedIn => {
+      if (!isLoggedIn) {
+        this.router.navigate(['/login']);
+      } else {
+        // Fetch full user data from backend
+        this.authService.getUserFromBackend().subscribe({
+          next: (user) => {
+            this.currentUser = user;
+            console.log('Current User from backend:', this.currentUser);
+          },
+          error: (err) => {
+            console.error('Failed to fetch user from backend', err);
+          }
+        });
+      }
+    });
+  }
 
   logout() {
     this.authService.logout();

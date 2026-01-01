@@ -11,15 +11,24 @@ import { AuthService } from '../../auth/auth.service';
   styleUrls: ['./header.component.scss'],
 })
 export class AppHeaderComponent implements OnInit {
-  @Input() user: any;                 // parent can pass currentUser
-  @Input() isDarkMode: boolean = false; // ✅ default value fixes TS2564
+  @Input() user: any;                 
+  @Input() isDarkMode: boolean = false; 
   @Output() logout = new EventEmitter<void>();
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
     if (!this.user) {
-      this.user = this.authService.getCurrentUser();
+      // Fetch full user info from backend
+      this.authService.getUserFromBackend().subscribe({
+        next: (user) => {
+          this.user = user;
+          console.log('Header user loaded from backend:', user);
+        },
+        error: (err) => {
+          console.error('Failed to load user:', err);
+        }
+      });
     }
   }
 
@@ -38,3 +47,4 @@ export class AppHeaderComponent implements OnInit {
     this.logout.emit();
   }
 }
+
