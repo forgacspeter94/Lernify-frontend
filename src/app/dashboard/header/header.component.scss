@@ -1,5 +1,3 @@
-
-
 /* Overall header styling */
 .app-header {
   background-color: var(--bg-surface);
@@ -31,7 +29,21 @@
   align-items: center;
   flex-wrap: wrap;
 
-  /* Add this new rule for the logout button */
+  /* Hoverable username */
+  .username-link {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+
+    &:hover {
+      background-color: var(--primary);
+      color: white;
+    }
+  }
+
+  /* Logout & theme buttons */
   button {
     background-color: var(--color-gray);
     color: var(--text-main);

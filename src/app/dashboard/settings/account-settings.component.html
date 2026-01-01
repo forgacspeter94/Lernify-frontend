@@ -1,0 +1,54 @@
+<h1>Account Settings</h1>
+
+<!-- ================= ACCOUNT DATA ================= -->
+<section class="card">
+  <h2>Profile</h2>
+
+  <form (ngSubmit)="saveAccount()">
+    <label>
+      Username
+      <input [(ngModel)]="user.username" name="username" required />
+    </label>
+
+    <label>
+      Email
+      <input [(ngModel)]="email" name="email" type="email" required />
+    </label>
+
+    <label>
+      New Password
+      <input
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        placeholder="Leave empty to keep current password"
+      />
+    </label>
+
+    <button type="submit">Save Changes</button>
+  </form>
+</section>
+
+<!-- ================= APPEARANCE ================= -->
+<section class="card">
+  <h2>Settings</h2>
+
+  <p>Theme mode</p>
+  <button (click)="toggleTheme()">
+    {{ isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode' }}
+  </button>
+</section>
+
+<!-- ================= DELETE ACCOUNT ================= -->
+<section class="card danger">
+  <h2>Delete Account</h2>
+
+  <p>
+    Deleting your account is permanent and cannot be undone.
+    All your data will be removed.
+  </p>
+
+  <button class="delete-btn" (click)="deleteAccount()">
+    Delete Account
+  </button>
+</section>

@@ -12,6 +12,12 @@ interface JwtPayload {
   [key: string]: any;
 }
 
+interface UpdateUserRequest {
+  username: string;
+  email?: string;   // ✅ added email
+  password?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,6 +32,8 @@ export class AuthService {
     this.loggedIn.next(this.hasValidToken());
   }
 
+  /* ================= TOKEN HANDLING ================= */
+
   public getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
@@ -38,7 +46,9 @@ export class AuthService {
       const clockSkew = 2 * 60 * 1000;
 
       if (now >= (expiry - clockSkew)) {
-        console.warn(`Token expired or about to expire (within tolerance). Expiry: ${new Date(expiry).toISOString()}`);
+        console.warn(
+          `Token expired or about to expire (within tolerance). Expiry: ${new Date(expiry).toISOString()}`
+        );
         return true;
       }
       return false;
@@ -67,20 +77,28 @@ export class AuthService {
     this.loggedIn.next(true);
   }
 
+  /* ================= AUTH ================= */
+
   login(username: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/login`, { username, password }).pipe(
-      tap({
-        next: res => {
-          console.log('Received JWT token:', res.token);
-          this.storeToken(res.token);
-        },
-        error: () => this.clearLocalAuth()
-      })
-    );
+    return this.http
+      .post<AuthResponse>(`${this.baseUrl}/login`, { username, password })
+      .pipe(
+        tap({
+          next: res => {
+            console.log('Received JWT token:', res.token);
+            this.storeToken(res.token);
+          },
+          error: () => this.clearLocalAuth()
+        })
+      );
   }
 
   register(username: string, password: string, email: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/register`, { username, email, password });
+    return this.http.post<any>(`${this.baseUrl}/register`, {
+      username,
+      email,
+      password
+    });
   }
 
   logout(): void {
@@ -102,11 +120,11 @@ export class AuthService {
 
     this.http.post(`${this.baseUrl}/logout`, {}, { headers }).subscribe({
       next: () => {
-        console.log(' Logged out successfully.');
+        console.log('Logged out successfully.');
         this.clearLocalAuth();
       },
-      error: (err) => {
-        console.error(' Logout request failed:', err);
+      error: err => {
+        console.error('Logout request failed:', err);
         this.clearLocalAuth();
       }
     });
@@ -115,6 +133,8 @@ export class AuthService {
   isLoggedIn(): boolean {
     return this.hasValidToken();
   }
+
+  /* ================= USER ================= */
 
   getTokenPayload(): JwtPayload | null {
     const token = this.getToken();
@@ -126,11 +146,45 @@ export class AuthService {
       return null;
     }
   }
-  getCurrentUser(): { username: string } | null {
+
+  getCurrentUser(): { username: string; email?: string } | null {
     const payload = this.getTokenPayload();
     if (!payload) return null;
 
     const username = payload['sub'] || payload['username'] || payload['email'];
-    return username ? { username } : null;
+    const email = payload['email'];   // ✅ get email from token if available
+    return username ? { username, email } : null;
   }
- }
+
+  /** Helper for components */
+  getUser(): { username: string; email?: string } | null {
+    return this.getCurrentUser();
+  }
+
+  /* ================= ACCOUNT SETTINGS ================= */
+
+  updateUser(data: UpdateUserRequest): Observable<any> {
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.put(
+      'http://localhost:8080/user',
+      data,
+      { headers }
+    );
+  }
+
+  deleteAccount(): Observable<void> {
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.delete<void>(
+      'http://localhost:8080/user',
+      { headers }
+    );
+  }
+}

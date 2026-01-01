@@ -8,4 +8,14 @@ import { RouterOutlet } from '@angular/router';
   template: `<router-outlet></router-outlet>`
 })
 export class App {
+  isDarkMode = false;
+
+  constructor() {
+    // Load saved theme from localStorage
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkMode = savedTheme === 'dark';
+
+    // Apply theme globally
+    document.body.classList.toggle('dark-mode', this.isDarkMode);
+  }
 }
