@@ -34,7 +34,7 @@ export class AuthService {
     this.loggedIn.next(this.hasValidToken());
   }
 
-  /* ================= TOKEN HANDLING ================= */
+  /*  TOKEN HANDLING */
 
   public getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
@@ -72,7 +72,7 @@ export class AuthService {
     this.loggedIn.next(true);
   }
 
-  /* ================= AUTH ================= */
+  /*  AUTH  */
 
   login(username: string, password: string): Observable<AuthResponse> {
     return this.http
@@ -108,7 +108,7 @@ export class AuthService {
     return this.hasValidToken();
   }
 
-  /* ================= USER ================= */
+  /*  USER  */
 
   getUserFromBackend(): Observable<{ username: string; email: string }> {
     const token = this.getToken();
@@ -118,7 +118,7 @@ export class AuthService {
     return this.http.get<{ username: string; email: string }>(`${this.userBaseUrl}/me`, { headers }); // ✅ /user/me
   }
 
-  /* ================= ACCOUNT SETTINGS ================= */
+  /*  ACCOUNT SETTINGS  */
 
   updateUser(data: UpdateUserRequest): Observable<any> {
     const token = this.getToken();

@@ -1,59 +1,44 @@
-
-
-/* Container for all the cards */
 .dashboard-cards-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); // 2 equal-width columns
-  gap: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
 }
 
-/* Individual card styling for a uniform look */
 .card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 2rem 1.5rem;
-  border: 1px solid #e0e0e0;
+  background: var(--card-bg, #1e1e1e);
   border-radius: 12px;
-  text-decoration: none;
-  background-color: #ffffff;
-  color: #333;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  padding: 1.8rem;
+  cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.add-card {
+  border: 2px dashed #4caf50;
   text-align: center;
 }
 
-/* Hover effect for cards */
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-}
-
-/* Card title styling */
-.card h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
-  color: #4f46e5;; // Using the primary color from your variables
-}
-
-/* Card description text */
-.card p {
-  margin: 0;
-  font-size: 0.95rem;
-  color: #666;
-  line-height: 1.4;
-}
-
-/* RESPONSIVE DESIGN: For mobile and tablets */
-@media (max-width: 768px) {
-  .dashboard-cards-grid {
-    grid-template-columns: 1fr; // Stack cards vertically on small screens
+.add-form {
+  input {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 0.5rem;
   }
 
-  .card {
-    padding: 1.5rem;
+  button {
+    width: 100%;
+  }
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .dashboard-cards-grid {
+    grid-template-columns: 1fr;
   }
 }

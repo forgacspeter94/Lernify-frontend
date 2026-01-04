@@ -1,7 +1,32 @@
 <div class="dashboard-cards-grid">
-  <a class="card" routerLink="/dictionary">
-    <h3>Create new task</h3>
-    <p>Add a task here</p>
+
+  <!-- ✅ ADD SUBJECT CARD (ALWAYS FIRST) -->
+  <div class="card add-card" (click)="toggleAddForm()">
+    <h3>➕ Add new subject</h3>
+    <p>Create a new subject</p>
+  </div>
+
+  <!-- Add subject form -->
+  <div class="card add-form" *ngIf="showAddForm">
+    <form (ngSubmit)="addSubject()">
+      <input
+        type="text"
+        [(ngModel)]="newSubject"
+        name="subject"
+        placeholder="Subject name"
+      />
+      <button type="submit">Add</button>
+    </form>
+  </div>
+
+  <!-- 📚 SUBJECT CARDS -->
+  <a
+    class="card"
+    *ngFor="let subject of subjects"
+    [routerLink]="['/subjects', subject.id]"
+  >
+    <h3>{{ subject.name }}</h3>
+    <p>Open subject</p>
   </a>
 
-  
+</div>
