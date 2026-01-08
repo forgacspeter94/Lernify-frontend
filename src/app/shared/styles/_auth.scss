@@ -1,0 +1,91 @@
+// _auth.scss
+
+.auth-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.auth-left {
+  flex: 3;
+  background: url('/assets/backGround.png') no-repeat center center;
+  background-size: cover;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0;
+
+  .logo {
+    max-width: 80px;
+    margin: 1rem;
+    align-self: flex-start;
+  }
+
+  .text-wrapper {
+    align-self: flex-end;
+    text-align: right;
+    max-width: 80%;
+    margin-right: 1.5rem;
+    margin-top: -120px;
+    font-family: "PT Serif", serif;
+    text-shadow: -1px -1px 0 var(--auth-text-shadow),
+                 1px -1px 0 var(--auth-text-shadow),
+                -1px  1px 0 var(--auth-text-shadow),
+                 1px  1px 0 var(--auth-text-shadow);
+
+    h1 {
+      font-size: 2.55rem;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: var(--text-main);
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    height: auto;
+    flex: none;
+    background: none;
+    padding: 1rem 1rem 0.5rem 1rem;
+
+    .logo {
+      display: none;
+    }
+
+    .text-wrapper {
+      margin-top: 0;
+      margin-right: 0;
+      text-align: center;
+      align-self: center;
+
+      h1 {
+        font-size: 1.5rem;
+        color: var(--text-main);
+        margin-bottom: 0.5rem;
+        text-shadow: none;
+      }
+
+      p {
+        display: none;
+      }
+    }
+  }
+}
+
+.auth-right {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-main);
+}

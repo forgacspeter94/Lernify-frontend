@@ -1,0 +1,81 @@
+// _header.scss
+
+.app-header {
+  background-color: var(--header-bg);
+  padding: 1rem;
+  border-bottom: 1px solid var(--header-border);
+}
+
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dashboard-link {
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--primary);
+  font-size: 1.5rem;
+  
+  &:hover {
+    color: var(--primary-hover);
+  }
+}
+
+.user-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .username-link {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+    color: var(--text-main);
+
+    &:hover {
+      background-color: var(--primary);
+      color: var(--button-text);
+    }
+  }
+
+  button {
+    background-color: var(--secondary);
+    color: var(--button-text);
+    border: none;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--secondary-hover);
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .header-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-info {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .user-info button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}

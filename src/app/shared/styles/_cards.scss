@@ -1,0 +1,202 @@
+// _cards.scss - COMPLETE VERSION
+
+/* Card base styles */
+.card {
+  background-color: var(--bg-card, var(--bg-surface));
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: var(--text-main);
+}
+
+/* Danger card variant */
+.card.danger {
+  border-color: var(--card-danger-border);
+  
+  h2 {
+    color: var(--card-danger-text);
+  }
+}
+
+/* ================= FORM STYLING INSIDE CARDS ================= */
+.card form {
+  margin-top: 1.5rem;
+  
+  label {
+    display: block;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    color: var(--text-main);
+    
+    input {
+      display: block;
+      margin-top: 0.5rem;
+      width: 100%; /* Full width */
+      max-width: 500px; /* Limit maximum width */
+      padding: 0.75rem;
+      background-color: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--input-text);
+      border-radius: 6px;
+      font-size: 1rem;
+      
+      &:focus {
+        outline: none;
+        border-color: var(--input-focus);
+        box-shadow: 0 0 0 2px rgba(var(--input-focus), 0.2);
+      }
+    }
+  }
+  
+  button[type='submit'] {
+    margin-top: 1rem;
+  }
+}
+
+/* Theme section styling */
+.card > p + button {
+  margin-top: 0.75rem;
+  display: inline-block;
+}
+
+/* Danger card text spacing */
+.card.danger p {
+  margin: 1rem 0 1.5rem 0;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* ================= DASHBOARD CARDS ================= */
+.dashboard-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboard-card {
+  @extend .card;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.add-card {
+  @extend .card;
+  border: 2px dashed var(--success);
+  text-align: center;
+}
+
+/* Subject page file items */
+.file-item {
+  @extend .card;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .card form label input {
+    max-width: 100%; /* Full width on mobile */
+  }
+}
+
+
+
+/* ================= ACCOUNT SETTINGS IN CARDS ================= */
+
+/* Account container */
+.account-container {
+  max-width: 800px;
+  //margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Account navigation */
+.account-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Button on right, title on left */
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  
+  h1 {
+    margin: 0;
+    flex-grow: 1;
+  }
+    .back-btn {
+    margin-left: auto; /* Pushes button to right */
+  }
+}
+.account-settings-form {
+  text-align: left; /* Ensure text is left aligned */
+}
+
+/* Form labels spacing for account settings */
+.account-settings-form label {
+  display: block !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.account-settings-form label input {
+  display: block !important;
+  margin-top: 0.5rem !important;
+  width: 100% !important;
+  max-width: 500px !important;
+}
+
+/* Danger section spacing */
+.account-settings-form .card.danger p {
+  margin: 1rem 0 1.5rem 0 !important;
+  line-height: 1.6 !important;
+}
+
+/* Theme mode button spacing */
+.account-settings-form .card > p + button {
+  margin-top: 0.75rem !important;
+  display: inline-block !important;
+}
+
+/* Responsive for account */
+@media (max-width: 768px) {
+  .account-container {
+    padding: 0.75rem;
+  }
+  
+  .account-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    
+    h1 {
+      align-self: center;
+      margin-top: 0.5rem;
+    }
+  }
+  
+  .account-settings-form label input {
+    max-width: 100% !important;
+  }
+}

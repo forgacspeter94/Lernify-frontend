@@ -1,13 +1,13 @@
 <div class="dashboard-cards-grid">
 
   <!-- ✅ ADD SUBJECT CARD (ALWAYS FIRST) -->
-  <div class="card add-card" (click)="toggleAddForm()">
+  <div class="dashboard-card add-card" (click)="toggleAddForm()">
     <h3>➕ Add new subject</h3>
     <p>Create a new subject</p>
   </div>
 
   <!-- Add subject form -->
-  <div class="card add-form" *ngIf="showAddForm">
+  <div class="dashboard-card add-form" *ngIf="showAddForm">
     <form (ngSubmit)="addSubject()">
       <input
         type="text"
@@ -21,7 +21,7 @@
 
   <!-- 📚 SUBJECT CARDS -->
   <a
-    class="card"
+    class="dashboard-card"
     *ngFor="let subject of subjects"
     [routerLink]="['/subjects', subject.id]"
   >

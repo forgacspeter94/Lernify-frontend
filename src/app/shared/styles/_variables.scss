@@ -1,15 +1,97 @@
-$primary-color: #3f51b5;
-$danger-color: red;
-$success-color: green;
-$background-light: #f4f6f8;
+// _variables.scss
 
+/* =========================
+   CSS CUSTOM PROPERTIES
+   (Theme Variables)
+========================= */
 
 :root {
-  // CSS Custom Properties
-  --color-gray: #6c757d;
-  --color-gray-dark: #5a6268;
+  /* LIGHT THEME DEFAULTS */
+  --bg-main: #f4f6f8;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --text-main: #333333;
+  --text-muted: #666666;
+  --border: #cccccc;
+  
+  /* Colors */
+  --primary: #3f51b5;
+  --primary-hover: #303f9f;
+  --secondary: #6c757d;
+  --secondary-hover: #5a6268;
+  --success: #28a745;
+  --danger: #e74c3c;
+  --warning: #ffc107;
+  --info: #17a2b8;
+  
+  /* Form Elements */
+  --input-bg: #ffffff;
+  --input-border: #cccccc;
+  --input-text: #333333;
+  --input-focus: #3f51b5;
+  
+  /* Buttons */
+  --button-text: #ffffff;
+  --button-disabled: #cccccc;
+  
+  /* Shadows */
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.25);
+  
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+
+    --header-bg: var(--bg-surface);
+  --header-border: var(--border);
+  
+  // Card variations
+  --card-danger-border: var(--danger);
+  --card-danger-text: var(--danger);
+  
+  // Button variations
+  --button-theme-bg: var(--primary);  // For theme toggle
+  --button-save-bg: var(--success);   // For save button
+  --button-delete-bg: var(--danger);  // For delete button
+  
+  // Auth specific
+  --auth-text-shadow: rgba(255, 255, 255, 0.8);
 }
 
-// Fallback for older browsers
-$gray: var(--color-gray, #6c757d);
-$gray-dark: var(--color-gray-dark, #5a6268);
+body.dark-mode {
+  /* DARK THEME OVERRIDES */
+  --bg-main: #121212;
+  --bg-surface: #1e1e1e;
+  --bg-card: #1e1e1e;
+  --text-main: #f5f5f5;
+  --text-muted: #b0b0b0;
+  --border: #333333;
+  
+  /* Colors */
+  --primary: #90caf9;
+  --primary-hover: #64b5f6;
+  --secondary: #b0b0b0;
+  --secondary-hover: #e0e0e0;
+  --success: #4caf50;
+  --danger: #ff5252;
+  --warning: #ffb74d;
+  --info: #4fc3f7;
+  
+  /* Form Elements */
+  --input-bg: #2c2c2c;
+  --input-border: #444444;
+  --input-text: #f0f0f0;
+  --input-focus: #90caf9;
+  
+  /* Buttons */
+  --button-text: #ffffff;
+  --button-disabled: #555555;
+  
+  /* Shadows */
+  --shadow-light: rgba(0, 0, 0, 0.3);
+  --shadow-medium: rgba(0, 0, 0, 0.5);
+}

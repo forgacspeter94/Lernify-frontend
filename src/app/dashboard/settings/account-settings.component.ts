@@ -67,4 +67,9 @@ export class AccountSettingsComponent implements OnInit {
       this.router.navigate(['/login']);
     });
   }
+
+    goToDashboard() {
+    console.log('Navigating to dashboard...');
+    this.router.navigate(['/dashboard']);
+  }
 }

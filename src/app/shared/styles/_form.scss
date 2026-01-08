@@ -1,47 +1,63 @@
-.auth-form {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+// _form.scss
 
-  width: 350px;       // bigger default width (adjust as you want)
-  max-width: 90vw;    // max width should not exceed viewport width (responsive)
+.auth-form {
+  background: var(--bg-surface);
+  padding: var(--space-xl);
+  border-radius: 8px;
+  box-shadow: 0 0 10px var(--shadow-light);
+  width: 350px;
+  max-width: 90vw;
+  margin: 0 auto;
 
   label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-sm);
+    color: var(--text-main);
+    font-weight: 500;
   }
 
   input {
     width: 100%;
     padding: 0.75rem;
-    margin-top: 0.25rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
+    margin-top: var(--space-xs);
+    margin-bottom: var(--space-md);
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--input-text);
     border-radius: 4px;
+    font-size: 1rem;
+    
+    &:focus {
+      outline: none;
+      border-color: var(--input-focus);
+      box-shadow: 0 0 0 2px rgba(var(--input-focus), 0.2);
+    }
   }
 
   button {
-    background-color: #303f9f;
-    color: #fff;
+    background-color: var(--primary);
+    color: var(--button-text);
     border: none;
     padding: 0.75rem;
     font-size: 1rem;
     border-radius: 4px;
     width: 100%;
     cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-weight: 500;
 
     &:hover {
-      background-color: #5a6268; // Darker gray
+      background-color: var(--primary-hover);
+    }
+    
+    &:disabled {
+      background-color: var(--button-disabled);
+      cursor: not-allowed;
     }
   }
-   @media (max-width: 768px) {
-    width: 100%;       // take full width on mobile (with max-width in parent container)
-    padding: 1.5rem;
-    
-    input, button {
-      width: 100%;
-      box-sizing: border-box; // ensures padding doesn't break width
-    }// a bit less padding on smaller screens
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: var(--space-lg);
   }
 }
