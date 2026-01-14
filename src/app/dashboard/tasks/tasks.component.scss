@@ -1,0 +1,43 @@
+.tasks-page-container {
+  padding: 1.5rem;
+}
+
+.create-task-form {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.create-task-form input {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.create-task-form button {
+  background-color: #4f46e5;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.create-task-form button:hover {
+  background-color: #4338ca;
+}
+
+.tasks-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tasks-list th, .tasks-list td {
+  border: 1px solid #ddd;
+  padding: 0.6rem 1rem;
+  text-align: left;
+}
+
+.tasks-list th {
+  background-color: #f0f0f0;
+}

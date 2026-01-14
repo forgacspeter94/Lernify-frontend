@@ -1,0 +1,31 @@
+<div class="tasks-page-container">
+
+  <!-- 🔹 Create Task Form -->
+  <div class="create-task-form">
+    <input type="text" [(ngModel)]="newTask.title" placeholder="Task name" />
+    <input type="number" [(ngModel)]="newTask.learningTime" placeholder="Learning Time (min)" />
+    <input type="date" [(ngModel)]="newTask.date" />
+    <button (click)="createTask()">Create Task</button>
+  </div>
+
+  <!-- 🔹 List of Tasks -->
+  <div class="tasks-list">
+    <table>
+      <thead>
+        <tr>
+          <th>Task Name</th>
+          <th>Learning Time (min)</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of tasks">
+          <td>{{ task.title }}</td>
+          <td>{{ task.learningTime }}</td>
+          <td>{{ task.date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

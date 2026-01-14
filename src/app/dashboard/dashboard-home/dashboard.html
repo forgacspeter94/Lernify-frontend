@@ -1,6 +1,47 @@
-<app-header [user]="currentUser" (logout)="logout()"></app-header>
+<app-header
+  [user]="currentUser"
+  (logout)="logout()">
+</app-header>
 
 <div class="dashboard-container">
+
+  <!-- 🔹 PERSONALIZED DASHBOARD (M-8) -->
+  <section class="overview-section" *ngIf="currentUser">
+
+    <!-- Header row -->
+    <div class="overview-header">
+      <h2>Today</h2>
+
+       <button class="create-task-btn" [routerLink]="['/tasks']">
+    📝 Tasks
+      </button>
+    </div>
+
+    <!-- Content row -->
+    <div class="overview-content">
+
+      <!-- Today's Tasks with Learning Time -->
+      <div class="overview-card">
+        <h3>Today's Tasks</h3>
+
+        <ul *ngIf="todaysTasks.length; else noTasks">
+          <li *ngFor="let task of todaysTasks" class="task-row">
+            <span class="task-title">{{ task.title }}</span>
+            <span class="task-time">
+              ⏱ {{ task.learningTime }} min
+            </span>
+          </li>
+        </ul>
+
+        <ng-template #noTasks>
+          <p class="empty-text">No tasks for today</p>
+        </ng-template>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 🔹 EXISTING DASHBOARD CONTENT -->
   <div class="main-content">
     <p>Learn successfully!</p>
 
@@ -8,4 +49,5 @@
       <app-dashboard-cards></app-dashboard-cards>
     </div>
   </div>
+
 </div>

@@ -1,37 +1,54 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router'; // ✅ add RouterModule
 import { AuthService } from '../../auth/auth.service';
 import { AppHeaderComponent } from '../header/header.component';
 import { DashboardCardsComponent } from '../dashboard-cards/dashboard-cards.component';
 
+interface Task {
+  title: string;
+  learningTime: number; // minutes
+}
+
 @Component({
-  standalone: true,
-  imports: [AppHeaderComponent, DashboardCardsComponent], 
   selector: 'app-dashboard',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,             // ✅ REQUIRED for [routerLink]
+    AppHeaderComponent,
+    DashboardCardsComponent
+  ],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+
   currentUser: { username: string; email?: string } | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  // 🔹 Tasks with learningTime
+  todaysTasks: Task[] = [
+    { title: 'Review Angular Services', learningTime: 25 },
+    { title: 'Practice TypeScript', learningTime: 40 },
+    { title: 'RxJS Observables', learningTime: 15 },
+  ];
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.authService.loggedIn$.subscribe(isLoggedIn => {
       if (!isLoggedIn) {
         this.router.navigate(['/login']);
-      } else {
-        // Fetch full user data from backend
-        this.authService.getUserFromBackend().subscribe({
-          next: (user) => {
-            this.currentUser = user;
-            console.log('Current User from backend:', this.currentUser);
-          },
-          error: (err) => {
-            console.error('Failed to fetch user from backend', err);
-          }
-        });
+        return;
       }
+
+      this.authService.getUserFromBackend().subscribe({
+        next: user => this.currentUser = user,
+        error: err => console.error(err)
+      });
     });
   }
 
