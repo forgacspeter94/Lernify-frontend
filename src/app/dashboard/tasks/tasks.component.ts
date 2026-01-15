@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 interface Task {
   id?: number;
   title: string;
-  learningTime: number; // in minutes
-  date: string; // YYYY-MM-DD
+  learningTime: number;
+  date: string;
 }
 
 @Component({
@@ -21,28 +22,85 @@ export class TasksComponent implements OnInit {
 
   tasks: Task[] = [];
   newTask: Task = { title: '', learningTime: 0, date: '' };
+  editingTaskId: number | null = null;
+  originalTask: Task | null = null; // To restore on cancel
 
-  constructor() {}
+  private apiUrl = 'http://localhost:8080/tasks';
+
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    // 🔹 Mock tasks
-    this.tasks = [
-      { id: 1, title: 'Review Angular Services', learningTime: 25, date: '2026-01-14' },
-      { id: 2, title: 'Practice TypeScript', learningTime: 40, date: '2026-01-14' },
-      { id: 3, title: 'Read about RxJS Observables', learningTime: 15, date: '2026-01-15' }
-    ];
+    this.loadTasks();
+  }
+
+  loadTasks() {
+    this.http.get<Task[]>(this.apiUrl).subscribe({
+      next: (tasks) => {
+        this.tasks = tasks;
+      },
+      error: (err) => console.error('Error loading tasks:', err)
+    });
   }
 
   createTask() {
     if (!this.newTask.title || !this.newTask.date) return;
 
-    // Assign a mock ID
-    const newId = this.tasks.length ? Math.max(...this.tasks.map(t => t.id || 0)) + 1 : 1;
+    this.http.post<Task>(this.apiUrl, this.newTask).subscribe({
+      next: (task) => {
+        this.tasks.push(task);
+        this.newTask = { title: '', learningTime: 0, date: '' };
+      },
+      error: (err) => console.error('Error creating task:', err)
+    });
+  }
 
-    const task: Task = { ...this.newTask, id: newId };
-    this.tasks.push(task);
+  startEdit(taskId: number) {
+    this.editingTaskId = taskId;
+    // Save original values in case user cancels
+    const task = this.tasks.find(t => t.id === taskId);
+    if (task) {
+      this.originalTask = { ...task };
+    }
+  }
 
-    // Reset form
-    this.newTask = { title: '', learningTime: 0, date: '' };
+  saveTask(task: Task) {
+    this.http.put<Task>(`${this.apiUrl}/${task.id}`, task).subscribe({
+      next: (updated) => {
+        const index = this.tasks.findIndex(t => t.id === updated.id);
+        if (index !== -1) {
+          this.tasks[index] = updated;
+        }
+        this.editingTaskId = null;
+        this.originalTask = null;
+      },
+      error: (err) => {
+        console.error('Error updating task:', err);
+        // Optionally restore original values on error
+        this.cancelEdit();
+      }
+    });
+  }
+
+  cancelEdit() {
+    // Restore original values
+    if (this.originalTask && this.editingTaskId) {
+      const index = this.tasks.findIndex(t => t.id === this.editingTaskId);
+      if (index !== -1) {
+        this.tasks[index] = { ...this.originalTask };
+      }
+    }
+    this.editingTaskId = null;
+    this.originalTask = null;
+  }
+
+  deleteTask(taskId: number) {
+    if (!confirm('Are you sure you want to delete this task?')) return;
+
+    this.http.delete(`${this.apiUrl}/${taskId}`).subscribe({
+      next: () => {
+        this.tasks = this.tasks.filter(t => t.id !== taskId);
+      },
+      error: (err) => console.error('Error deleting task:', err)
+    });
   }
 }

@@ -1,43 +1,268 @@
-.tasks-page-container {
-  padding: 1.5rem;
+.tasks-container {
+  padding: var(--space-lg);
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h2 {
+    margin-bottom: var(--space-lg);
+    color: var(--text-main);
+  }
+
+  .add-task-form {
+    background: var(--bg-surface);
+    padding: var(--space-lg);
+    border-radius: 8px;
+    margin-bottom: var(--space-xl);
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 4px var(--shadow-light);
+
+    h3 {
+      margin-top: 0;
+      color: var(--text-main);
+    }
+
+    form {
+      display: flex;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 200px;
+
+        label {
+          margin-bottom: var(--space-xs);
+          font-weight: 500;
+          color: var(--text-main);
+        }
+
+        input {
+          padding: var(--space-sm);
+          border: 1px solid var(--input-border);
+          border-radius: 4px;
+          background: var(--input-bg);
+          color: var(--input-text);
+
+          &:focus {
+            outline: none;
+            border-color: var(--input-focus);
+            box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.1);
+          }
+        }
+      }
+
+      button {
+        padding: var(--space-sm) var(--space-lg);
+        background: var(--primary);
+        color: var(--button-text);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        align-self: flex-end;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background: var(--primary-hover);
+        }
+
+        &:disabled {
+          background: var(--button-disabled);
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  .tasks-list {
+    h3 {
+      margin-bottom: var(--space-md);
+      color: var(--text-main);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-surface);
+      box-shadow: 0 2px 4px var(--shadow-light);
+      border-radius: 8px;
+      overflow: hidden;
+
+      thead {
+        background: var(--bg-main);
+
+        th {
+          padding: var(--space-md);
+          text-align: left;
+          font-weight: 600;
+          border-bottom: 2px solid var(--border);
+          color: var(--text-main);
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid var(--border);
+          transition: background-color 0.2s;
+
+          &:hover {
+            background: var(--bg-main);
+          }
+
+          td {
+            padding: var(--space-md);
+            color: var(--text-main);
+
+            .edit-input {
+              width: 100%;
+              padding: var(--space-xs);
+              border: 1px solid var(--input-focus);
+              border-radius: 4px;
+              box-sizing: border-box;
+              background: var(--input-bg);
+              color: var(--input-text);
+
+              &:focus {
+                outline: none;
+                box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+              }
+            }
+
+            &.actions {
+              display: flex;
+              gap: var(--space-sm);
+
+              button {
+                padding: var(--space-xs) var(--space-md);
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 14px;
+                transition: all 0.2s;
+                color: var(--button-text);
+
+                &.btn-edit {
+                  background: var(--warning);
+                  color: #000;
+
+                  &:hover {
+                    opacity: 0.9;
+                    transform: translateY(-1px);
+                  }
+                }
+
+                &.btn-save {
+                  background: var(--success);
+
+                  &:hover {
+                    opacity: 0.9;
+                    transform: translateY(-1px);
+                  }
+                }
+
+                &.btn-cancel {
+                  background: var(--secondary);
+
+                  &:hover {
+                    background: var(--secondary-hover);
+                    transform: translateY(-1px);
+                  }
+                }
+
+                &.btn-delete {
+                  background: var(--danger);
+
+                  &:hover {
+                    opacity: 0.9;
+                    transform: translateY(-1px);
+                  }
+                }
+
+                &:disabled {
+                  background: var(--button-disabled);
+                  cursor: not-allowed;
+                  transform: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    p {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: var(--space-lg);
+      text-align: center;
+    }
+  }
 }
 
-.create-task-form {
-  display: flex;
-  gap: 0.8rem;
-  margin-bottom: 2rem;
-}
+// Responsive design
+@media (max-width: 768px) {
+  .tasks-container {
+    padding: var(--space-md);
 
-.create-task-form input {
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
+    .add-task-form {
+      form {
+        flex-direction: column;
 
-.create-task-form button {
-  background-color: #4f46e5;
-  color: #fff;
-  border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-}
+        .form-group {
+          min-width: 100%;
+        }
 
-.create-task-form button:hover {
-  background-color: #4338ca;
-}
+        button {
+          align-self: stretch;
+        }
+      }
+    }
 
-.tasks-list table {
-  width: 100%;
-  border-collapse: collapse;
-}
+    .tasks-list {
+      table {
+        font-size: 14px;
 
-.tasks-list th, .tasks-list td {
-  border: 1px solid #ddd;
-  padding: 0.6rem 1rem;
-  text-align: left;
-}
+        thead {
+          display: none; // Hide headers on mobile for better space
+        }
 
-.tasks-list th {
-  background-color: #f0f0f0;
+        tbody {
+          tr {
+            display: block;
+            margin-bottom: var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+
+            td {
+              display: block;
+              padding: var(--space-sm) var(--space-md);
+              border: none;
+              border-bottom: 1px solid var(--border);
+
+              &:last-child {
+                border-bottom: none;
+              }
+
+              &::before {
+                content: attr(data-label);
+                font-weight: 600;
+                display: block;
+                margin-bottom: var(--space-xs);
+                color: var(--text-muted);
+              }
+
+              &.actions {
+                flex-direction: column;
+
+                button {
+                  width: 100%;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

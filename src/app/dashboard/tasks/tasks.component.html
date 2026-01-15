@@ -1,31 +1,107 @@
-<div class="tasks-page-container">
+<div class="tasks-container">
+  <h2>Learning Goals / Tasks</h2>
 
-  <!-- 🔹 Create Task Form -->
-  <div class="create-task-form">
-    <input type="text" [(ngModel)]="newTask.title" placeholder="Task name" />
-    <input type="number" [(ngModel)]="newTask.learningTime" placeholder="Learning Time (min)" />
-    <input type="date" [(ngModel)]="newTask.date" />
-    <button (click)="createTask()">Create Task</button>
+  <!-- Add New Task Form -->
+  <div class="add-task-form">
+    <h3>Add New Task</h3>
+    <form (ngSubmit)="createTask()">
+      <div class="form-group">
+        <label>Title:</label>
+        <input type="text" [(ngModel)]="newTask.title" name="title" required />
+      </div>
+      <div class="form-group">
+        <label>Learning Time (minutes):</label>
+        <input type="number" [(ngModel)]="newTask.learningTime" name="learningTime" min="0" required />
+      </div>
+      <div class="form-group">
+        <label>Date:</label>
+        <input type="date" [(ngModel)]="newTask.date" name="date" required />
+      </div>
+      <button type="submit">Add Task</button>
+    </form>
   </div>
 
-  <!-- 🔹 List of Tasks -->
+  <!-- Tasks Table -->
   <div class="tasks-list">
-    <table>
+    <h3>Your Tasks</h3>
+    <table *ngIf="tasks.length > 0">
       <thead>
         <tr>
-          <th>Task Name</th>
+          <th>Title</th>
           <th>Learning Time (min)</th>
           <th>Date</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let task of tasks">
-          <td>{{ task.title }}</td>
-          <td>{{ task.learningTime }}</td>
-          <td>{{ task.date }}</td>
+          <!-- Editable Title -->
+          <td>
+            <input 
+              *ngIf="editingTaskId === task.id" 
+              type="text" 
+              [(ngModel)]="task.title"
+              class="edit-input"
+            />
+            <span *ngIf="editingTaskId !== task.id">{{ task.title }}</span>
+          </td>
+
+          <!-- Editable Learning Time -->
+          <td>
+            <input 
+              *ngIf="editingTaskId === task.id" 
+              type="number" 
+              [(ngModel)]="task.learningTime"
+              min="0"
+              class="edit-input"
+            />
+            <span *ngIf="editingTaskId !== task.id">{{ task.learningTime }}</span>
+          </td>
+
+          <!-- Editable Date -->
+          <td>
+            <input 
+              *ngIf="editingTaskId === task.id" 
+              type="date" 
+              [(ngModel)]="task.date"
+              class="edit-input"
+            />
+            <span *ngIf="editingTaskId !== task.id">{{ task.date }}</span>
+          </td>
+
+          <!-- Actions -->
+          <td class="actions">
+            <button 
+              *ngIf="editingTaskId !== task.id" 
+              (click)="startEdit(task.id!)"
+              class="btn-edit"
+            >
+              Edit
+            </button>
+            <button 
+              *ngIf="editingTaskId === task.id" 
+              (click)="saveTask(task)"
+              class="btn-save"
+            >
+              Save
+            </button>
+            <button 
+              *ngIf="editingTaskId === task.id" 
+              (click)="cancelEdit()"
+              class="btn-cancel"
+            >
+              Cancel
+            </button>
+            <button 
+              (click)="deleteTask(task.id!)"
+              class="btn-delete"
+            >
+              Delete
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
+    <p *ngIf="tasks.length === 0">No tasks yet. Add your first learning goal!</p>
   </div>
-
 </div>
