@@ -20,7 +20,7 @@ export class SubjectPageComponent implements OnInit {
   editingFileId: number | null = null;
   originalFilename: string = '';
 
-  allowedExtensions = ['doc', 'docx', 'ppt', 'pptx', 'txt', 'jpg', 'jpeg', 'png', 'xlsx', 'xls', 'pdf'];
+  allowedExtensions = ['doc', 'docx', 'ppt', 'pptx', 'txt', 'jpg','xlsx', 'xls', 'pdf'];
 
   constructor(
     private route: ActivatedRoute,
