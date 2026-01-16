@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 interface Task {
@@ -22,18 +22,29 @@ export class TasksComponent implements OnInit {
 
   tasks: Task[] = [];
   newTask: Task = { title: '', learningTime: 0, date: '' };
+
   editingTaskId: number | null = null;
-  originalTask: Task | null = null; // To restore on cancel
+  originalTask: Task | null = null; // restore on cancel
 
   private apiUrl = 'http://localhost:8080/tasks';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     this.loadTasks();
   }
 
-  loadTasks() {
+  // -------------------------
+  // NAVIGATION
+  // -------------------------
+  goToDashboard(): void {
+    this.router.navigate(['/dashboard']);
+  }
+
+  // -------------------------
+  // LOAD TASKS
+  // -------------------------
+  loadTasks(): void {
     this.http.get<Task[]>(this.apiUrl).subscribe({
       next: (tasks) => {
         this.tasks = tasks;
@@ -42,7 +53,10 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  createTask() {
+  // -------------------------
+  // CREATE
+  // -------------------------
+  createTask(): void {
     if (!this.newTask.title || !this.newTask.date) return;
 
     this.http.post<Task>(this.apiUrl, this.newTask).subscribe({
@@ -54,16 +68,18 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  startEdit(taskId: number) {
+  // -------------------------
+  // EDIT
+  // -------------------------
+  startEdit(taskId: number): void {
     this.editingTaskId = taskId;
-    // Save original values in case user cancels
     const task = this.tasks.find(t => t.id === taskId);
     if (task) {
       this.originalTask = { ...task };
     }
   }
 
-  saveTask(task: Task) {
+  saveTask(task: Task): void {
     this.http.put<Task>(`${this.apiUrl}/${task.id}`, task).subscribe({
       next: (updated) => {
         const index = this.tasks.findIndex(t => t.id === updated.id);
@@ -75,14 +91,12 @@ export class TasksComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error updating task:', err);
-        // Optionally restore original values on error
         this.cancelEdit();
       }
     });
   }
 
-  cancelEdit() {
-    // Restore original values
+  cancelEdit(): void {
     if (this.originalTask && this.editingTaskId) {
       const index = this.tasks.findIndex(t => t.id === this.editingTaskId);
       if (index !== -1) {
@@ -93,7 +107,10 @@ export class TasksComponent implements OnInit {
     this.originalTask = null;
   }
 
-  deleteTask(taskId: number) {
+  // -------------------------
+  // DELETE
+  // -------------------------
+  deleteTask(taskId: number): void {
     if (!confirm('Are you sure you want to delete this task?')) return;
 
     this.http.delete(`${this.apiUrl}/${taskId}`).subscribe({

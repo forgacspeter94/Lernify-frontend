@@ -10,10 +10,10 @@
 
     <!-- Header row -->
     <div class="overview-header">
-      <h2>Today</h2>
+      <h2>Today - <small>{{ todayDate }}</small></h2>
 
-       <button class="create-task-btn" [routerLink]="['/tasks']">
-    📝 Tasks
+      <button class="create-task-btn" [routerLink]="['/tasks']">
+        📝 Tasks
       </button>
     </div>
 
@@ -22,17 +22,23 @@
 
       <!-- Today's Tasks with Learning Time -->
       <div class="overview-card">
-        <h3>Today's Tasks</h3>
+        <!-- 🔹 Header: task title on left, total time on right -->
+        <h3 class="tasks-header">
+          <span>Today's Tasks</span>
+          <span *ngIf="todaysTasks.length" class="tasks-time">
+            Total learning time: ⏱ {{ totalLearningTime }} min
+          </span>
+        </h3>
 
+        <!-- Task list -->
         <ul *ngIf="todaysTasks.length; else noTasks">
           <li *ngFor="let task of todaysTasks" class="task-row">
             <span class="task-title">{{ task.title }}</span>
-            <span class="task-time">
-              ⏱ {{ task.learningTime }} min
-            </span>
+            <span class="task-time">⏱ {{ task.learningTime }} min</span>
           </li>
         </ul>
 
+        <!-- No tasks message -->
         <ng-template #noTasks>
           <p class="empty-text">No tasks for today</p>
         </ng-template>

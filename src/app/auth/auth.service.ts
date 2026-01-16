@@ -23,7 +23,6 @@ interface UpdateUserRequest {
   providedIn: 'root'
 })
 export class AuthService {
-
   private authBaseUrl = 'http://localhost:8080/auth';
   private userBaseUrl = 'http://localhost:8080/user';
   private tokenKey = 'auth_token';
@@ -63,7 +62,8 @@ export class AuthService {
     this.loggedIn.next(true);
   }
 
-  private clearLocalAuth(): void {
+  // ✅ New synchronous clear for App startup / guards
+  clearLocalAuth(): void {
     localStorage.removeItem(this.tokenKey);
     this.loggedIn.next(false);
   }
@@ -94,10 +94,14 @@ export class AuthService {
     });
   }
 
-  logout(): Observable<void> {
-    return this.http.post<void>(`${this.authBaseUrl}/logout`, {}).pipe(
-      tap(() => this.clearLocalAuth())
-    );
+  logout(): void {
+    // ✅ synchronous clear for immediate guard effect
+    this.clearLocalAuth();
+    // Optional: call backend
+    this.http.post<void>(`${this.authBaseUrl}/logout`, {}).subscribe({
+      next: () => console.log('Logged out on server'),
+      error: () => console.warn('Server logout failed')
+    });
   }
 
   /* ================= USER ================= */

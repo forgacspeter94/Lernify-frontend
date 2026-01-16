@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core'; 
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FileService, FileItem } from '../files/file.service';
@@ -20,12 +20,12 @@ export class SubjectPageComponent implements OnInit {
   editingFileId: number | null = null;
   originalFilename: string = '';
 
-  // Allowed file extensions
   allowedExtensions = ['doc', 'docx', 'ppt', 'pptx', 'txt', 'jpg', 'jpeg', 'png', 'xlsx', 'xls', 'pdf'];
 
   constructor(
     private route: ActivatedRoute,
-    private fileService: FileService
+    private fileService: FileService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -33,11 +33,16 @@ export class SubjectPageComponent implements OnInit {
     this.loadFiles();
   }
 
+  // -------------------------
+  // NAVIGATION
+  // -------------------------
+  goToDashboard(): void {
+    this.router.navigate(['/dashboard']);
+  }
+
   loadFiles() {
     this.fileService.getFiles(this.subjectId).subscribe({
-      next: (files) => {
-        this.files = files;
-      },
+      next: (files) => this.files = files,
       error: (err) => console.error('Error loading files:', err)
     });
   }
@@ -46,9 +51,8 @@ export class SubjectPageComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      
-      // Validate file type
       const extension = this.getFileExtension(file.name);
+
       if (!this.allowedExtensions.includes(extension)) {
         this.uploadError = `File type ".${extension}" is not supported. Allowed types: ${this.allowedExtensions.join(', ')}`;
         this.uploadSuccess = '';
@@ -57,7 +61,6 @@ export class SubjectPageComponent implements OnInit {
         return;
       }
 
-      // Validate file size (10MB max)
       if (file.size > 10 * 1024 * 1024) {
         this.uploadError = 'File size exceeds 10MB limit';
         this.uploadSuccess = '';
@@ -83,23 +86,15 @@ export class SubjectPageComponent implements OnInit {
         this.uploadError = '';
         this.uploadSuccess = `File "${file.filename}" uploaded successfully!`;
         this.loadFiles();
-        
-        // Clear success message after 3 seconds
-        setTimeout(() => {
-          this.uploadSuccess = '';
-        }, 3000);
 
-        // Clear file input
+        setTimeout(() => this.uploadSuccess = '', 3000);
+
         const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
       },
       error: (err) => {
         console.error('Upload error:', err);
-        if (err.error && err.error.error) {
-          this.uploadError = err.error.message || err.error.error;
-        } else {
-          this.uploadError = 'Failed to upload file';
-        }
+        this.uploadError = err.error?.message || err.error?.error || 'Failed to upload file';
         this.uploadSuccess = '';
       }
     });
@@ -119,9 +114,7 @@ export class SubjectPageComponent implements OnInit {
     this.fileService.renameFile(file.id, file.filename).subscribe({
       next: (updated) => {
         const index = this.files.findIndex(f => f.id === updated.id);
-        if (index !== -1) {
-          this.files[index] = updated;
-        }
+        if (index !== -1) this.files[index] = updated;
         this.editingFileId = null;
         this.originalFilename = '';
       },
@@ -141,14 +134,12 @@ export class SubjectPageComponent implements OnInit {
   downloadFile(fileId: number, filename: string) {
     this.fileService.downloadFile(fileId).subscribe({
       next: (blob) => {
-        const downloadUrl = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.href = downloadUrl;
+        link.href = window.URL.createObjectURL(blob);
         link.download = filename;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        window.URL.revokeObjectURL(downloadUrl);
       },
       error: (err) => {
         console.error('Download error:', err);
@@ -161,9 +152,7 @@ export class SubjectPageComponent implements OnInit {
     if (!confirm(`Are you sure you want to delete "${filename}"?`)) return;
 
     this.fileService.deleteFile(fileId).subscribe({
-      next: () => {
-        this.loadFiles();
-      },
+      next: () => this.loadFiles(),
       error: (err) => console.error('Error deleting file:', err)
     });
   }
@@ -176,17 +165,9 @@ export class SubjectPageComponent implements OnInit {
   getFileIcon(filename: string): string {
     const ext = this.getFileExtension(filename);
     const iconMap: { [key: string]: string } = {
-      'pdf': '📄',
-      'doc': '📝',
-      'docx': '📝',
-      'txt': '📃',
-      'ppt': '📊',
-      'pptx': '📊',
-      'xls': '📈',
-      'xlsx': '📈',
-      'jpg': '🖼️',
-      'jpeg': '🖼️',
-      'png': '🖼️'
+      'pdf': '📄', 'doc': '📝', 'docx': '📝', 'txt': '📃',
+      'ppt': '📊', 'pptx': '📊', 'xls': '📈', 'xlsx': '📈',
+      'jpg': '🖼️', 'jpeg': '🖼️', 'png': '🖼️'
     };
     return iconMap[ext] || '📎';
   }

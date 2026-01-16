@@ -1,0 +1,46 @@
+.account-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+
+  .back-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: var(--space-xs) var(--space-md);
+    background: var(--primary);
+    color: var(--button-text);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: var(--primary-hover);
+    }
+
+    .icon {
+      font-weight: bold;
+    }
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--text-main);
+  }
+}
+
+.account-settings-form {
+  .error-messages {
+    color: #dc2626; // red
+    margin-bottom: var(--space-sm);
+    font-size: 0.9rem;
+  }
+
+  .success-message {
+    color: #16a34a; // green
+    margin-bottom: var(--space-sm);
+    font-size: 0.9rem;
+  }
+}

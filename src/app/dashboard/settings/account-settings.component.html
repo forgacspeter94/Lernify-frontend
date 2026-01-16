@@ -2,29 +2,32 @@
   <!-- Navigation bar -->
   <div class="account-nav">
     <button class="back-btn" (click)="goToDashboard()">
-    <span class="icon">←</span> Dashboard
-  </button>
+      <span class="icon">←</span> Dashboard
+    </button>
     <h1>Account Settings</h1>
   </div>
 
-  <!-- ADD THIS WRAPPER -->
   <div class="account-settings-form">
-  
+
     <!-- ACCOUNT DATA -->
-    <!-- <section class="card">
+    <section class="card">
       <h2>Profile</h2>
+
       <div *ngIf="!user">
         <p>Loading account information...</p>
       </div>
-      <form (ngSubmit)="saveAccount()">
+
+      <form *ngIf="user" (ngSubmit)="saveAccount()">
         <label>
           Username
           <input [(ngModel)]="user.username" name="username" required />
         </label>
+
         <label>
           Email
           <input [(ngModel)]="email" name="email" type="email" required />
         </label>
+
         <label>
           New Password
           <input
@@ -34,38 +37,19 @@
             placeholder="Leave empty to keep current password"
           />
         </label>
+
+        <!-- ===== MESSAGES RIGHT ABOVE SAVE BUTTON ===== -->
+        <div *ngIf="errorMessages.length > 0" class="error-messages">
+          <div *ngFor="let msg of errorMessages">{{ msg }}</div>
+        </div>
+
+        <div *ngIf="successMessage" class="success-message">
+          {{ successMessage }}
+        </div>
+
         <button type="submit">Save Changes</button>
       </form>
-    </section> -->
-
-<section class="card">
-  <h2>Profile</h2>
-
-  <div *ngIf="!user">
-    <p>Loading account information...</p>
-  </div>
-
-  <form *ngIf="user" (ngSubmit)="saveAccount()">
-    <label>
-      Username
-      <input [(ngModel)]="user.username" name="username" required />
-    </label>
-    <label>
-      Email
-      <input [(ngModel)]="email" name="email" type="email" required />
-    </label>
-    <label>
-      New Password
-      <input
-        type="password"
-        [(ngModel)]="password"
-        name="password"
-        placeholder="Leave empty to keep current password"
-      />
-    </label>
-    <button type="submit">Save Changes</button>
-  </form>
-</section>
+    </section>
 
     <!-- APPEARANCE -->
     <section class="card">
@@ -87,6 +71,6 @@
         Delete Account
       </button>
     </section>
-    
+
   </div> <!-- END account-settings-form -->
 </div>

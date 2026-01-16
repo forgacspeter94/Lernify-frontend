@@ -3,15 +3,42 @@
   max-width: 1200px;
   margin: 0 auto;
 
-  h2 {
-    color: var(--text-main);
+  /* Header with back button */
+  .subject-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: var(--space-lg);
+
+    h2 {
+      margin: 0;
+      color: var(--text-main);
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--primary);
+      color: var(--button-text);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background: var(--primary-hover);
+      }
+
+      .icon {
+        font-weight: bold;
+      }
+    }
   }
 
-  h3 {
-    color: var(--text-main);
-    margin-bottom: var(--space-md);
-  }
+  h2 { color: var(--text-main); margin-bottom: var(--space-lg); }
+  h3 { color: var(--text-main); margin-bottom: var(--space-md); }
 
   .upload-section {
     background: var(--bg-surface);
@@ -74,14 +101,8 @@
         border-radius: 4px;
         cursor: pointer;
 
-        &:hover:not(:disabled) {
-          opacity: 0.9;
-        }
-
-        &:disabled {
-          background: var(--button-disabled);
-          cursor: not-allowed;
-        }
+        &:hover:not(:disabled) { opacity: 0.9; }
+        &:disabled { background: var(--button-disabled); cursor: not-allowed; }
       }
     }
   }
@@ -108,74 +129,15 @@
       margin-bottom: var(--space-sm);
       transition: background-color 0.2s;
 
-      &:hover {
-        background: var(--bg-main);
-      }
+      &:hover { background: var(--bg-main); }
 
-      .file-icon {
-        font-size: 1.5em;
-      }
+      .file-icon { font-size: 1.5em; }
+      .filename { flex: 1; font-family: monospace; word-break: break-all; }
+      .edit-input { flex: 1; padding: var(--space-xs); border: 1px solid var(--input-focus); border-radius: 4px; }
 
-      .filename {
-        flex: 1;
-        color: var(--text-main);
-        font-family: monospace;
-        word-break: break-all;
-      }
+      .file-actions { display: flex; gap: var(--space-xs); }
 
-      .edit-input {
-        flex: 1;
-        padding: var(--space-xs);
-        border: 1px solid var(--input-focus);
-        border-radius: 4px;
-        background: var(--input-bg);
-        color: var(--input-text);
-        font-family: monospace;
-
-        &:focus {
-          outline: none;
-          box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
-        }
-      }
-
-      .file-actions {
-        display: flex;
-        gap: var(--space-xs);
-
-        button {
-          padding: var(--space-xs) var(--space-sm);
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 16px;
-          transition: all 0.2s;
-
-          &.btn-download {
-            background: var(--info);
-          }
-
-          &.btn-edit {
-            background: var(--warning);
-          }
-
-          &.btn-save {
-            background: var(--success);
-          }
-
-          &.btn-cancel {
-            background: var(--secondary);
-          }
-
-          &.btn-delete {
-            background: var(--danger);
-          }
-
-          &:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-          }
-        }
-      }
+      .file-actions button { padding: var(--space-xs) var(--space-sm); border-radius: 4px; font-size: 16px; cursor: pointer; transition: all 0.2s; }
     }
   }
 }

@@ -3,6 +3,40 @@
   max-width: 1200px;
   margin: 0 auto;
 
+  /* Header with back button */
+  .tasks-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+
+    h2 {
+      margin: 0;
+      color: var(--text-main);
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--primary);
+      color: var(--button-text);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background: var(--primary-hover);
+      }
+
+      .icon {
+        font-weight: bold;
+      }
+    }
+  }
+
   h2 {
     margin-bottom: var(--space-lg);
     color: var(--text-main);
@@ -142,48 +176,10 @@
                 transition: all 0.2s;
                 color: var(--button-text);
 
-                &.btn-edit {
-                  background: var(--warning);
-                  color: #000;
-
-                  &:hover {
-                    opacity: 0.9;
-                    transform: translateY(-1px);
-                  }
-                }
-
-                &.btn-save {
-                  background: var(--success);
-
-                  &:hover {
-                    opacity: 0.9;
-                    transform: translateY(-1px);
-                  }
-                }
-
-                &.btn-cancel {
-                  background: var(--secondary);
-
-                  &:hover {
-                    background: var(--secondary-hover);
-                    transform: translateY(-1px);
-                  }
-                }
-
-                &.btn-delete {
-                  background: var(--danger);
-
-                  &:hover {
-                    opacity: 0.9;
-                    transform: translateY(-1px);
-                  }
-                }
-
-                &:disabled {
-                  background: var(--button-disabled);
-                  cursor: not-allowed;
-                  transform: none;
-                }
+                &.btn-edit { background: var(--warning); color: #000; }
+                &.btn-save { background: var(--success); }
+                &.btn-cancel { background: var(--secondary); &:hover { background: var(--secondary-hover); } }
+                &.btn-delete { background: var(--danger); }
               }
             }
           }
@@ -196,73 +192,6 @@
       font-style: italic;
       padding: var(--space-lg);
       text-align: center;
-    }
-  }
-}
-
-// Responsive design
-@media (max-width: 768px) {
-  .tasks-container {
-    padding: var(--space-md);
-
-    .add-task-form {
-      form {
-        flex-direction: column;
-
-        .form-group {
-          min-width: 100%;
-        }
-
-        button {
-          align-self: stretch;
-        }
-      }
-    }
-
-    .tasks-list {
-      table {
-        font-size: 14px;
-
-        thead {
-          display: none; // Hide headers on mobile for better space
-        }
-
-        tbody {
-          tr {
-            display: block;
-            margin-bottom: var(--space-md);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-
-            td {
-              display: block;
-              padding: var(--space-sm) var(--space-md);
-              border: none;
-              border-bottom: 1px solid var(--border);
-
-              &:last-child {
-                border-bottom: none;
-              }
-
-              &::before {
-                content: attr(data-label);
-                font-weight: 600;
-                display: block;
-                margin-bottom: var(--space-xs);
-                color: var(--text-muted);
-              }
-
-              &.actions {
-                flex-direction: column;
-
-                button {
-                  width: 100%;
-                }
-              }
-            }
-          }
-        }
-      }
     }
   }
 }
