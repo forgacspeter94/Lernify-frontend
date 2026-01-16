@@ -42,3 +42,42 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+.subject-card {
+  position: relative; // Important for absolute positioning of delete button
+}
+
+.delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--danger);
+  color: var(--button-text);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  line-height: 1;
+  padding: 0;
+  transition: background 0.2s;
+  
+  &:hover {
+    background: var(--card-danger-border);
+    opacity: 0.9;
+  }
+}
+
+.card-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}

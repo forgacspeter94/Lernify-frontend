@@ -20,13 +20,19 @@
   </div>
 
   <!-- 📚 SUBJECT CARDS -->
-  <a
-    class="dashboard-card"
-    *ngFor="let subject of subjects"
-    [routerLink]="['/subjects', subject.id]"
-  >
-    <h3>{{ subject.name }}</h3>
-    <p>Open subject</p>
-  </a>
+  <div class="dashboard-card subject-card" *ngFor="let subject of subjects">
+    <button 
+      class="delete-btn" 
+      (click)="deleteSubject($event, subject.id, subject.name)"
+      title="Delete subject"
+    >
+      ✕
+    </button>
+    
+    <a [routerLink]="['/subjects', subject.id]" class="card-link">
+      <h3>{{ subject.name }}</h3>
+      <p>Open subject</p>
+    </a>
+  </div>
 
 </div>

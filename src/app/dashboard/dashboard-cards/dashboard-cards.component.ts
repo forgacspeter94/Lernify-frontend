@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { SubjectService, Subject } from '../subjects/subject.service';
+import { SubjectService, SubjectModel } from '../subjects/subject.service';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { SubjectService, Subject } from '../subjects/subject.service';
   styleUrls: ['./dashboard-cards.component.scss'],
 })
 export class DashboardCardsComponent implements OnInit {
-  subjects: Subject[] = [];
+  subjects: SubjectModel[] = [];
   showAddForm = false;
   newSubject = '';
 
@@ -40,6 +40,26 @@ export class DashboardCardsComponent implements OnInit {
       this.newSubject = '';
       this.showAddForm = false;
       this.loadSubjects();
+    });
+  }
+
+  deleteSubject(event: Event, id: number, name: string) {
+    // Prevent card click when clicking delete button
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (!confirm(`Are you sure you want to delete "${name}"?\n\nThis will also delete all files in this subject.`)) {
+      return;
+    }
+
+    this.subjectService.deleteSubject(id).subscribe({
+      next: () => {
+        this.loadSubjects();
+      },
+      error: (err) => {
+        console.error('Error deleting subject:', err);
+        alert('Failed to delete subject. Please try again.');
+      }
     });
   }
 }
