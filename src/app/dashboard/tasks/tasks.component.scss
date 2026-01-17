@@ -195,3 +195,156 @@
     }
   }
 }
+// ========================================
+// 🔹 ADD ONLY THESE STYLES to your tasks.component.scss
+// These styles are ADDED to your existing styles, not replacing
+// ========================================
+
+.tasks-container {
+  // ... keep ALL your existing styles ...
+
+  // 🔹 NEW: Filter & Search Bar (positioned on right, below Add Task form)
+  .filter-search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+  }
+
+  .filter-search-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    background: var(--bg-surface);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 4px var(--shadow-light);
+  }
+
+  .filter-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+
+    label {
+      font-weight: 500;
+      color: var(--text-main);
+      white-space: nowrap;
+      font-size: 0.9rem;
+    }
+
+    .filter-input {
+      padding: var(--space-sm);
+      border: 1px solid var(--input-border);
+      border-radius: 4px;
+      background: var(--input-bg);
+      color: var(--input-text);
+      min-width: 150px;
+
+      &:focus {
+        outline: none;
+        border-color: var(--input-focus);
+        box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.1);
+      }
+    }
+  }
+
+  .search-item .filter-input {
+    min-width: 200px; // Wider search input
+  }
+
+  .clear-all-btn {
+    padding: var(--space-sm) var(--space-md);
+    background: var(--danger);
+    color: var(--button-text);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #d32f2f;
+      transform: translateY(-1px);
+    }
+  }
+
+  .filter-results {
+    font-size: 0.9rem;
+    color: var(--text-main);
+    font-weight: 500;
+    background: var(--bg-main);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: 4px;
+    border-left: 3px solid var(--primary);
+  }
+
+  // 🔹 NEW: Category tag styling in table
+  .category-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    background: var(--primary);
+    color: var(--button-text);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  // 🔹 NEW: No results message
+  .no-results {
+    color: var(--warning) !important;
+    background: rgba(255, 152, 0, 0.1);
+    padding: var(--space-md) !important;
+    border-radius: 6px;
+    border-left: 3px solid var(--warning);
+  }
+
+  // Responsive: Stack filters vertically on mobile
+  @media (max-width: 1024px) {
+    .filter-search-container {
+      align-items: stretch;
+    }
+
+    .filter-search-bar {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .filter-item {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .clear-all-btn {
+      width: 100%;
+    }
+
+    .filter-results {
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .filter-search-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .filter-item {
+      width: 100%;
+
+      .filter-input {
+        width: 100%;
+        min-width: unset;
+      }
+    }
+
+    .search-item .filter-input {
+      min-width: unset;
+    }
+  }
+}

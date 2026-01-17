@@ -9,6 +9,7 @@ interface Task {
   title: string;
   learningTime: number;
   date: string;
+  category?: string; // 🔹 NEW: For S-2 filtering
 }
 
 @Component({
@@ -21,10 +22,15 @@ interface Task {
 export class TasksComponent implements OnInit {
 
   tasks: Task[] = [];
-  newTask: Task = { title: '', learningTime: 0, date: '' };
+  newTask: Task = { title: '', learningTime: 0, date: '', category: '' }; // 🔹 NEW: Added category
 
   editingTaskId: number | null = null;
   originalTask: Task | null = null; // restore on cancel
+
+  // 🔹 NEW: S-2 Filter properties + C-3 Search
+  filterDate: string = '';
+  filterCategory: string = '';
+  searchKeyword: string = '';
 
   private apiUrl = 'http://localhost:8080/tasks';
 
@@ -62,7 +68,7 @@ export class TasksComponent implements OnInit {
     this.http.post<Task>(this.apiUrl, this.newTask).subscribe({
       next: (task) => {
         this.tasks.push(task);
-        this.newTask = { title: '', learningTime: 0, date: '' };
+        this.newTask = { title: '', learningTime: 0, date: '', category: '' }; // 🔹 NEW: Reset category
       },
       error: (err) => console.error('Error creating task:', err)
     });
@@ -119,5 +125,39 @@ export class TasksComponent implements OnInit {
       },
       error: (err) => console.error('Error deleting task:', err)
     });
+  }
+
+  // ========================================
+  // 🔹 NEW: S-2 FILTERING + C-3 SEARCH
+  // ========================================
+  
+  get filteredTasks(): Task[] {
+    let filtered = [...this.tasks];
+
+    // S-2: Filter by date
+    if (this.filterDate) {
+      filtered = filtered.filter(t => t.date === this.filterDate);
+    }
+
+    // S-2: Filter by category
+
+    // C-3: Search by title
+    if (this.searchKeyword) {
+      const keyword = this.searchKeyword.toLowerCase();
+      filtered = filtered.filter(t => 
+        t.title.toLowerCase().includes(keyword)
+      );
+    }
+
+    return filtered;
+  }
+
+  clearAllFilters(): void {
+    this.filterDate = '';
+    this.searchKeyword = '';
+  }
+
+  get hasActiveFilters(): boolean {
+    return !!(this.filterDate || this.searchKeyword);
   }
 }

@@ -28,10 +28,45 @@
     </form>
   </div>
 
+  <!-- 🔹 NEW: Filter & Search Bar (Right Side, Below Add Task) -->
+  <div class="filter-search-container">
+    <div class="filter-search-bar">
+      <div class="filter-item">
+        <label>📅 Date:</label>
+        <input 
+          type="date" 
+          [(ngModel)]="filterDate" 
+          class="filter-input">
+      </div>
+
+      <div class="filter-item search-item">
+        <label>🔍 Search:</label>
+        <input 
+          type="text" 
+          [(ngModel)]="searchKeyword" 
+          class="filter-input"
+          placeholder="Search by title...">
+      </div>
+
+      <button 
+        class="clear-all-btn" 
+        *ngIf="hasActiveFilters"
+        (click)="clearAllFilters()">
+        🗑️ Clear All
+      </button>
+    </div>
+
+    <p class="filter-results" *ngIf="hasActiveFilters">
+      Showing {{ filteredTasks.length }} of {{ tasks.length }} tasks
+    </p>
+  </div>
+
   <!-- Tasks Table -->
   <div class="tasks-list">
     <h3>Your Tasks</h3>
-    <table *ngIf="tasks.length > 0">
+    
+    <!-- 🔹 CHANGED: Use filteredTasks instead of tasks -->
+    <table *ngIf="filteredTasks.length > 0">
       <thead>
         <tr>
           <th>Title</th>
@@ -41,7 +76,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let task of tasks">
+        <!-- 🔹 CHANGED: Loop through filteredTasks -->
+        <tr *ngFor="let task of filteredTasks">
           <!-- Editable Title -->
           <td>
             <input 
@@ -109,6 +145,13 @@
         </tr>
       </tbody>
     </table>
-    <p *ngIf="tasks.length === 0">No tasks yet. Add your first learning goal!</p>
+    
+    <!-- 🔹 UPDATED: Empty state messages -->
+    <p *ngIf="filteredTasks.length === 0 && tasks.length === 0">
+      No tasks yet. Add your first learning goal!
+    </p>
+    <p *ngIf="filteredTasks.length === 0 && tasks.length > 0" class="no-results">
+      No tasks match "{{ searchKeyword }}". Try a different search term.
+    </p>
   </div>
 </div>
