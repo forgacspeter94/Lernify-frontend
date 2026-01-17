@@ -57,7 +57,7 @@ export class RegisterComponent {
       error: (err) => {
         console.log('Register error:', err);
         if (err.status === 409) {
-          this.errorMessage = 'Username already exists. Please choose another one.';
+          this.errorMessage = 'Username or email already exists. Please choose another one.';
         } else {
           this.errorMessage = 'Registration failed. Try again.';
         }
