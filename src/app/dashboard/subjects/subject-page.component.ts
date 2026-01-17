@@ -20,7 +20,7 @@ export class SubjectPageComponent implements OnInit {
   editingFileId: number | null = null;
   originalFilename: string = '';
 
-  allowedExtensions = ['doc', 'docx', 'ppt', 'pptx', 'txt', 'jpg', 'jpeg', 'png', 'xlsx', 'xls', 'pdf'];
+  allowedExtensions = ['doc', 'docx', 'ppt', 'pptx', 'txt', 'jpg', 'xlsx', 'pdf'];
 
   constructor(
     private route: ActivatedRoute,
@@ -165,9 +165,14 @@ export class SubjectPageComponent implements OnInit {
   getFileIcon(filename: string): string {
     const ext = this.getFileExtension(filename);
     const iconMap: { [key: string]: string } = {
-      'pdf': '📄', 'doc': '📝', 'docx': '📝', 'txt': '📃',
-      'ppt': '📊', 'pptx': '📊', 'xls': '📈', 'xlsx': '📈',
-      'jpg': '🖼️', 'jpeg': '🖼️', 'png': '🖼️'
+      'pdf': '📄',
+      'doc': '📝',
+      'docx': '📝',
+      'txt': '📃',
+      'ppt': '📊',
+      'pptx': '📊',
+      'xlsx': '📈',
+      'jpg': '🖼️'
     };
     return iconMap[ext] || '📎';
   }
