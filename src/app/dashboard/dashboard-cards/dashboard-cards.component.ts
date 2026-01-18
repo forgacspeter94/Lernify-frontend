@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SubjectService, SubjectModel } from '../subjects/subject.service';
+import { TranslationService } from '../../shared/languageService.service';
 
 
 @Component({
@@ -17,7 +18,10 @@ export class DashboardCardsComponent implements OnInit {
   showAddForm = false;
   newSubject = '';
 
-  constructor(private subjectService: SubjectService) {}
+  constructor(
+    private subjectService: SubjectService,
+    public t: TranslationService // 🔹 2. ADD THIS IN CONSTRUCTOR
+  ) {}
 
   ngOnInit() {
     this.loadSubjects();
@@ -48,7 +52,11 @@ export class DashboardCardsComponent implements OnInit {
     event.stopPropagation();
     event.preventDefault();
 
-    if (!confirm(`Are you sure you want to delete "${name}"?\n\nThis will also delete all files in this subject.`)) {
+    // 🔹 3. USE TRANSLATIONS IN CONFIRM DIALOG
+    const confirmMessage = this.t.translate('subjects.confirm.delete')
+      .replace('{name}', name);
+    
+    if (!confirm(confirmMessage)) {
       return;
     }
 
@@ -58,7 +66,8 @@ export class DashboardCardsComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error deleting subject:', err);
-        alert('Failed to delete subject. Please try again.');
+        // 🔹 4. USE TRANSLATION FOR ERROR MESSAGE
+        alert(this.t.translate('subjects.error.deleteFailed'));
       }
     });
   }

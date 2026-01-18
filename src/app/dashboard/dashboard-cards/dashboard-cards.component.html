@@ -2,8 +2,8 @@
 
   <!-- ✅ ADD SUBJECT CARD (ALWAYS FIRST) -->
   <div class="dashboard-card add-card" (click)="toggleAddForm()">
-    <h3>➕ Add new subject</h3>
-    <p>Create a new subject</p>
+    <h3>➕ {{ t.translate('subjects.addNew') }}</h3>
+    <p>{{ t.translate('subjects.createNew') }}</p>
   </div>
 
   <!-- Add subject form -->
@@ -13,9 +13,9 @@
         type="text"
         [(ngModel)]="newSubject"
         name="subject"
-        placeholder="Subject name"
+        [placeholder]="t.translate('subjects.placeholder')"
       />
-      <button type="submit">Add</button>
+      <button type="submit">{{ t.translate('button.add') }}</button>
     </form>
   </div>
 
@@ -24,15 +24,20 @@
     <button 
       class="delete-btn" 
       (click)="deleteSubject($event, subject.id, subject.name)"
-      title="Delete subject"
+      [title]="t.translate('subjects.deleteTitle')"
     >
       ✕
     </button>
     
     <a [routerLink]="['/subjects', subject.id]" class="card-link">
       <h3>{{ subject.name }}</h3>
-      <p>Open subject</p>
+      <p>{{ t.translate('subjects.openSubject') }}</p>
     </a>
   </div>
+
+  <!-- Empty state -->
+  <p class="empty-state" *ngIf="subjects.length === 0 && !showAddForm">
+    {{ t.translate('subjects.noSubjects') }}
+  </p>
 
 </div>

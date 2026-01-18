@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TranslationService } from '../../shared/languageService.service';
 
 
 @Component({
@@ -11,4 +12,9 @@ import { RouterModule } from '@angular/router';
   templateUrl: './auth-layout.component.html',
     styleUrls: ['./auth-layout.component.scss']
 })
-export class AuthLayoutComponent {}
+export class AuthLayoutComponent {
+  constructor(
+  // ... your existing services
+  public t: TranslationService  // ADD THIS
+) {}
+}

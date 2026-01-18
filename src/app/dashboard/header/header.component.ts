@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
+import { TranslationService } from '../../shared/languageService.service';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,7 @@ export class AppHeaderComponent implements OnInit {
   @Input() isDarkMode: boolean = false; 
   @Output() logout = new EventEmitter<void>();
 
-  constructor(private authService: AuthService) {}
+  constructor(public t: TranslationService, private authService: AuthService) {}
 
   ngOnInit() {
     if (!this.user) {

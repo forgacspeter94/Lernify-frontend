@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { Language, TranslationService } from '../../shared/languageService.service';
 
 @Component({
   selector: 'app-account-settings',
@@ -20,7 +21,13 @@ export class AccountSettingsComponent implements OnInit {
   errorMessages: string[] = [];
   successMessage = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  currentLanguage: Language = 'en';
+  availableLanguages = [
+    { code: 'en' as Language, name: 'English', flag: '🇬🇧' },
+    { code: 'de' as Language, name: 'Deutsch', flag: '🇩🇪' }
+  ];
+
+  constructor(private authService: AuthService, private router: Router, public t: TranslationService) {}
 
   ngOnInit() {
     this.isDarkMode = localStorage.getItem('theme') === 'dark';
@@ -30,6 +37,8 @@ export class AccountSettingsComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
+
+    this.currentLanguage = this.t.currentLang;
 
     this.authService.getUserFromBackend().subscribe({
       next: user => {
@@ -126,4 +135,14 @@ export class AccountSettingsComponent implements OnInit {
     console.log('Navigating to dashboard...');
     this.router.navigate(['/dashboard']);
   }
+  
+  switchLanguage(lang: Language) {
+  this.currentLanguage = lang;
+  this.t.setLanguage(lang);
+  this.successMessage = this.t.translate('settings.success.languageChanged');
+  
+  setTimeout(() => {
+    this.successMessage = '';
+  }, 3000);
+}
 }

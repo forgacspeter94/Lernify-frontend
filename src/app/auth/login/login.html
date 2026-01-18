@@ -1,24 +1,24 @@
 <app-auth-layout>
   <div class="auth-form"> 
-    <h2>Login</h2>
+    <h2>{{ t.translate('auth.login.title') }}</h2>
     <form (submit)="login()">
       <label>
-        Username:
+        {{ t.translate('auth.login.username') }}:
         <input type="text" [(ngModel)]="username" name="username" required />
       </label>
       <br />
       <label>
-        Password:
+        {{ t.translate('auth.login.password') }}:
         <input type="password" [(ngModel)]="password" name="password" required />
       </label>
       <br />
-      <button class="register-btn" type="submit">Login</button>
+      <button class="register-btn" type="submit">{{ t.translate('auth.login.button') }}</button>
     </form>
 
     <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
     <p>
-      Don’t have an account?
-      <a routerLink="/register">Register here</a>
+      {{ t.translate('auth.login.noAccount') }}
+      <a routerLink="/register">{{ t.translate('auth.login.registerHere') }}</a>
     </p>
   </div>
 </app-auth-layout>

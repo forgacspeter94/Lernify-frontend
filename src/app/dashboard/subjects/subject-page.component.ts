@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FileService, FileItem } from '../files/file.service';
+import { TranslationService } from '../../shared/languageService.service';
 
 @Component({
   standalone: true,
@@ -23,6 +24,7 @@ export class SubjectPageComponent implements OnInit {
   allowedExtensions = ['doc', 'docx', 'ppt', 'pptx', 'txt', 'jpg', 'xlsx', 'pdf'];
 
   constructor(
+    public t: TranslationService, 
     private route: ActivatedRoute,
     private fileService: FileService,
     private router: Router
@@ -54,15 +56,16 @@ export class SubjectPageComponent implements OnInit {
       const extension = this.getFileExtension(file.name);
 
       if (!this.allowedExtensions.includes(extension)) {
-        this.uploadError = `File type ".${extension}" is not supported. Allowed types: ${this.allowedExtensions.join(', ')}`;
+        this.uploadError = this.t.translate('files.error.typeNotSupported') + 
+      ` ".${extension}". ${this.t.translate('files.allowed')}: ${this.allowedExtensions.join(', ')}`;
         this.uploadSuccess = '';
         this.selectedFile = null;
         input.value = '';
         return;
       }
 
-      if (file.size > 10 * 1024 * 1024) {
-        this.uploadError = 'File size exceeds 10MB limit';
+       if (file.size > 10 * 1024 * 1024) {
+        this.uploadError = this.t.translate('files.error.sizeExceeds');
         this.uploadSuccess = '';
         this.selectedFile = null;
         input.value = '';
@@ -76,7 +79,7 @@ export class SubjectPageComponent implements OnInit {
 
   upload() {
     if (!this.selectedFile) {
-      this.uploadError = 'Please select a file first';
+      this.uploadError = this.t.translate('files.error.selectFile');
       return;
     }
 
@@ -84,7 +87,8 @@ export class SubjectPageComponent implements OnInit {
       next: (file) => {
         this.selectedFile = null;
         this.uploadError = '';
-        this.uploadSuccess = `File "${file.filename}" uploaded successfully!`;
+        //this.uploadSuccess = `File "${file.filename}" uploaded successfully!`;
+        this.uploadSuccess = `${this.t.translate('files.success.uploaded').replace('{name}', file.filename)}`;
         this.loadFiles();
 
         setTimeout(() => this.uploadSuccess = '', 3000);
@@ -107,7 +111,7 @@ export class SubjectPageComponent implements OnInit {
 
   saveFilename(file: FileItem) {
     if (!file.filename || file.filename.trim() === '') {
-      alert('Filename cannot be empty');
+      alert(this.t.translate('files.error.emptyFilename'));
       return;
     }
 
@@ -149,7 +153,8 @@ export class SubjectPageComponent implements OnInit {
   }
 
   deleteFile(fileId: number, filename: string) {
-    if (!confirm(`Are you sure you want to delete "${filename}"?`)) return;
+    const confirmMsg = this.t.translate('files.confirm.delete').replace('{name}', filename);
+    if (!confirm(confirmMsg)) return;
 
     this.fileService.deleteFile(fileId).subscribe({
       next: () => this.loadFiles(),

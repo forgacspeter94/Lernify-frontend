@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AuthLayoutComponent } from '../auth-layout/auth-layout.component';
 
 import { AuthService } from '../auth.service';
+import { TranslationService } from '../../shared/languageService.service';
 
 @Component({
   selector: 'app-login',
@@ -18,13 +19,13 @@ export class LoginComponent {
   password = '';
   errorMessage = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(public t: TranslationService, private authService: AuthService, private router: Router) {}
 
   login() {
     this.errorMessage = '';
     this.authService.login(this.username, this.password).subscribe({
       next: () => this.router.navigate(['/dashboard']), 
-      error: () => this.errorMessage = 'Invalid username or password'
+      error: () => this.errorMessage = this.t.translate('auth.login.error') 
     });
   }
 }

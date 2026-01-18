@@ -2,20 +2,20 @@
 
   <!-- Header with Dashboard back button -->
   <div class="subject-header-container">
-    <h2>📁 Subject Files</h2>
+    <h2>📁  {{ t.translate('files.title') }}</h2>
     <button class="back-btn" (click)="goToDashboard()">
-      <span class="icon">←</span> Dashboard
+      <span class="icon">←</span> {{ t.translate('button.dashboard') }}
     </button>
   </div>
 
   <!-- Upload Section -->
   <div class="upload-section">
-    <h3>Upload New File</h3>
+    <h3>{{ t.translate('files.uploadNew') }}</h3>
     
     <div class="file-info">
-      <strong>Allowed:</strong> 
+      <strong>{{ t.translate('files.allowed') }}:</strong> 
       <span class="allowed-types">{{ allowedExtensions.join(', ') }}</span>
-      <strong>Max size:</strong> 10MB
+      <strong>{{ t.translate('files.maxSize') }}:</strong> 10MB
     </div>
 
     <div class="alert alert-error" *ngIf="uploadError">
@@ -36,17 +36,17 @@
         (click)="upload()" 
         [disabled]="!selectedFile"
       >
-        Upload
+        {{ t.translate('files.button.upload') }}
       </button>
     </div>
   </div>
 
   <!-- File List -->
   <div class="file-list">
-    <h3>Uploaded Files</h3>
+    <h3>{{ t.translate('files.uploadedFiles') }}</h3>
 
     <div *ngIf="files.length === 0" class="no-files">
-      No files uploaded yet. Upload your first file above!
+       {{ t.translate('files.noFiles') }}
     </div>
 
     <div class="file-item" *ngFor="let file of files">
@@ -63,11 +63,11 @@
       </span>
 
       <div class="file-actions">
-        <button (click)="downloadFile(file.id, file.filename)" class="btn-download" title="Download">⬇️</button>
-        <button *ngIf="editingFileId !== file.id" (click)="startEdit(file.id, file.filename)" class="btn-edit" title="Rename">✏️</button>
-        <button *ngIf="editingFileId === file.id" (click)="saveFilename(file)" class="btn-save" title="Save">✅</button>
-        <button *ngIf="editingFileId === file.id" (click)="cancelEdit(file)" class="btn-cancel" title="Cancel">❌</button>
-        <button *ngIf="editingFileId !== file.id" (click)="deleteFile(file.id, file.filename)" class="btn-delete" title="Delete">🗑️</button>
+        <button (click)="downloadFile(file.id, file.filename)" class="btn-download"  [title]="t.translate('files.button.download')">⬇️</button>
+        <button *ngIf="editingFileId !== file.id" (click)="startEdit(file.id, file.filename)" class="btn-edit" [title]="t.translate('files.button.rename')">✏️</button>
+        <button *ngIf="editingFileId === file.id" (click)="saveFilename(file)" class="btn-save" [title]="t.translate('button.save')">✅</button>
+        <button *ngIf="editingFileId === file.id" (click)="cancelEdit(file)" class="btn-cancel" [title]="t.translate('button.cancel')">❌</button>
+        <button *ngIf="editingFileId !== file.id" (click)="deleteFile(file.id, file.filename)" class="btn-delete" [title]="t.translate('button.delete')">🗑️</button>
       </div>
     </div>
   </div>

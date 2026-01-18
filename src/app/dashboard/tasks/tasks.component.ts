@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { TranslationService } from '../../shared/languageService.service';
 
 interface Task {
   id?: number;
@@ -34,7 +35,7 @@ export class TasksComponent implements OnInit {
 
   private apiUrl = 'http://localhost:8080/tasks';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(public t: TranslationService, private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     this.loadTasks();
@@ -117,7 +118,7 @@ export class TasksComponent implements OnInit {
   // DELETE
   // -------------------------
   deleteTask(taskId: number): void {
-    if (!confirm('Are you sure you want to delete this task?')) return;
+     if (!confirm(this.t.translate('confirm.delete'))) return;
 
     this.http.delete(`${this.apiUrl}/${taskId}`).subscribe({
       next: () => {

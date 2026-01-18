@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../auth/auth.service';
 import { AppHeaderComponent } from '../header/header.component';
 import { DashboardCardsComponent } from '../dashboard-cards/dashboard-cards.component';
+import { TranslationService } from '../../shared/languageService.service';
 
 export interface Task {
   id?: number;
@@ -36,6 +37,7 @@ export class DashboardComponent implements OnInit {
   private apiUrl = 'http://localhost:8080/tasks';
 
   constructor(
+    public t: TranslationService,  // ADD
     private authService: AuthService,
     private http: HttpClient,
     private router: Router

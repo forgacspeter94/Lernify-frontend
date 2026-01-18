@@ -10,10 +10,10 @@
 
     <!-- Header row -->
     <div class="overview-header">
-      <h2>Today - <small>{{ todayDate }}</small></h2>
+      <h2>{{ t.translate('dashboard.today') }} - <small>{{ todayDate }}</small></h2>
 
       <button class="create-task-btn" [routerLink]="['/tasks']">
-        📝 Tasks
+        📝 {{ t.translate('dashboard.tasks') }}
       </button>
     </div>
 
@@ -24,9 +24,9 @@
       <div class="overview-card">
         <!-- 🔹 Header: task title on left, total time on right -->
         <h3 class="tasks-header">
-          <span>Today's Tasks</span>
+          <span>{{ t.translate('dashboard.todaysTasks') }}</span>
           <span *ngIf="todaysTasks.length" class="tasks-time">
-            Total learning time: ⏱ {{ totalLearningTime }} min
+            {{ t.translate('dashboard.totalLearningTime') }}: ⏱ {{ totalLearningTime }} {{ t.translate('time.min') }}
           </span>
         </h3>
 
@@ -40,7 +40,7 @@
 
         <!-- No tasks message -->
         <ng-template #noTasks>
-          <p class="empty-text">No tasks for today</p>
+          <p class="empty-text">{{ t.translate('dashboard.noTasks') }}</p>
         </ng-template>
       </div>
 
@@ -49,7 +49,7 @@
 
   <!-- 🔹 EXISTING DASHBOARD CONTENT -->
   <div class="main-content">
-    <p>Learn successfully!</p>
+    <p>{{ t.translate('dashboard.learnSuccessfully') }}</p>
 
     <div class="dashboard-grid">
       <app-dashboard-cards></app-dashboard-cards>

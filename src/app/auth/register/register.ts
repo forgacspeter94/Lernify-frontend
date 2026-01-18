@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthLayoutComponent } from '../auth-layout/auth-layout.component';
 import { AuthService } from '../auth.service';
+import { TranslationService } from '../../shared/languageService.service';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +20,7 @@ export class RegisterComponent {
   errorMessage = '';
   successMessage = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(public t: TranslationService, private authService: AuthService, private router: Router) {}
 
   register() {
     this.errorMessage = '';
@@ -32,18 +33,17 @@ export class RegisterComponent {
 
     if (!usernamePattern.test(this.username)) {
       this.errorMessage =
-        'Username must be 3-20 characters long and contain only letters and numbers.';
+        this.errorMessage = this.t.translate('settings.error.usernameInvalid')
       return;
     }
 
     if (!passwordPattern.test(this.password)) {
-      this.errorMessage =
-        'Password must be at least 8 characters, include uppercase, lowercase, number, and special character.';
+      this.errorMessage = this.t.translate('settings.error.passwordInvalid');
       return;
     }
 
     if (!emailPattern.test(this.email)) {
-      this.errorMessage = 'Please enter a valid email address.';
+      this.errorMessage = this.t.translate('settings.error.emailInvalid');
       return;
     }
 
@@ -51,15 +51,15 @@ export class RegisterComponent {
     this.authService.register(this.username, this.password, this.email).subscribe({
       next: (res) => {
         console.log('Register response:', res);
-        this.successMessage = 'Registration successful! Redirecting to login...';
+        this.successMessage = this.t.translate('auth.register.success');
         setTimeout(() => this.router.navigate(['/login']), 2000);
       },
       error: (err) => {
         console.log('Register error:', err);
         if (err.status === 409) {
-          this.errorMessage = 'Username or email already exists. Please choose another one.';
+          this.errorMessage = this.t.translate('auth.register.error.usernameExists');
         } else {
-          this.errorMessage = 'Registration failed. Try again.';
+          this.errorMessage = this.t.translate('auth.register.error.failed');
         }
       }
     });
